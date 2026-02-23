@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import DeletePortfolioLink from "./DeletePortfolioLink";
 
 type ImageItem = { id: string; category: string; src: string; alt: string };
@@ -63,7 +62,7 @@ export default function AdminPortfolioManager({
 
       <div className="mb-4 flex flex-wrap gap-2 items-center">
         <span className="text-[var(--muted)] text-sm mr-2">Filter:</span>
-        <Link
+        <a
           href="/admin/portfolio"
           className={`px-4 py-2 text-sm border transition-colors cursor-pointer ${
             activeFilter === "All"
@@ -72,12 +71,12 @@ export default function AdminPortfolioManager({
           }`}
         >
           All ({totalCount})
-        </Link>
+        </a>
         {categories.map((c) => {
           const count = counts.find((x) => x.id === c.id)?.count ?? 0;
           const isActive = activeFilter === c.id;
           return (
-            <Link
+            <a
               key={c.id}
               href={`/admin/portfolio?filter=${encodeURIComponent(c.id)}`}
               className={`px-4 py-2 text-sm border transition-colors cursor-pointer ${
@@ -87,7 +86,7 @@ export default function AdminPortfolioManager({
               }`}
             >
               {c.label} ({count})
-            </Link>
+            </a>
           );
         })}
       </div>

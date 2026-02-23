@@ -14,7 +14,6 @@ export default function UploadForm({
   return (
     <form
       action={uploadPortfolioAction}
-      encType="multipart/form-data"
       className="flex flex-col sm:flex-row gap-4 items-start flex-wrap"
     >
       <input type="hidden" name="filter" value={activeFilter} />
