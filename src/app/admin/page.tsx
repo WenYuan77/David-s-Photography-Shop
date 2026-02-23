@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getPortfolioData } from "@/lib/portfolio-data";
 import { getSiteSettings } from "@/lib/site-settings";
 
@@ -27,12 +26,12 @@ export default async function AdminDashboardPage() {
           <p className="text-[var(--muted)] text-xs mb-4">
             {siteSettings.phone || "—"} / {siteSettings.email || "—"}
           </p>
-          <Link
+          <a
             href="/admin/settings"
-            className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors"
+            className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors cursor-pointer"
           >
             Edit
-          </Link>
+          </a>
         </section>
 
         <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
@@ -42,12 +41,12 @@ export default async function AdminDashboardPage() {
           <p className="text-[var(--muted)] text-sm mb-4">
             {categoriesWithoutAll.length} portfolio categories
           </p>
-          <Link
+          <a
             href="/admin/categories"
-            className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors"
+            className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors cursor-pointer"
           >
             Manage
-          </Link>
+          </a>
         </section>
 
         <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
@@ -57,12 +56,12 @@ export default async function AdminDashboardPage() {
           <p className="text-[var(--muted)] text-sm mb-4">
             {images.length} images
           </p>
-          <Link
+          <a
             href="/admin/portfolio"
-            className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors"
+            className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors cursor-pointer"
           >
             Manage
-          </Link>
+          </a>
         </section>
       </div>
     </div>

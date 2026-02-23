@@ -11,19 +11,19 @@ export default function AdminNav() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)]/95 backdrop-blur-md border-b border-[var(--border)]">
       <nav className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-        <Link
+        <a
           href="/admin"
           className="font-[family-name:var(--font-playfair)] text-xl font-semibold tracking-[0.2em] uppercase text-[var(--foreground)] hover:text-[var(--gold)]"
         >
           Admin
-        </Link>
+        </a>
         <div className="flex items-center gap-6">
-          <Link
+          <a
             href="/admin"
             className={`text-sm tracking-[0.15em] uppercase ${pathname === "/admin" ? "text-[var(--gold)]" : "text-[var(--muted)] hover:text-[var(--gold)]"}`}
           >
             Dashboard
-          </Link>
+          </a>
           <Link
             href="/"
             target="_blank"
@@ -32,12 +32,12 @@ export default function AdminNav() {
           >
             View Site
           </Link>
-          <Link
+          <a
             href="/admin/logout"
             className="text-sm tracking-[0.15em] uppercase text-[var(--muted)] hover:text-[var(--accent-red)]"
           >
             Logout
-          </Link>
+          </a>
         </div>
       </nav>
     </header>
