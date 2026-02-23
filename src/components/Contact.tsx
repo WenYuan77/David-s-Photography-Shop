@@ -1,23 +1,28 @@
-export default function Contact() {
+type Props = {
+  phone: string;
+  email: string;
+};
+
+export default function Contact({ phone, email }: Props) {
+  const telHref = phone.replace(/\D/g, "");
+
   return (
     <section id="contact" className="scroll-mt-24 py-24 md:py-32 bg-[#0d0d0d]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">
-            Contact
-          </p>
+          <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">Contact</p>
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white mb-8">
             Let&apos;s Create Together
           </h2>
           <div className="divider-gold w-24 mx-auto mb-16" />
           <p className="text-[var(--muted)] font-[family-name:var(--font-cormorant)] text-lg mb-12">
-            Ready to capture your story? Reach out to schedule a consultation or
-            discuss your project.
+            Ready to capture your story? Reach out to schedule a consultation or discuss your
+            project.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
             <a
-              href="tel:+12062069868"
+              href={telHref ? `tel:+${telHref}` : "#"}
               className="group flex items-center gap-4 text-[var(--foreground)] hover:text-[var(--gold)] transition-colors duration-300"
             >
               <span className="text-[var(--gold)] group-hover:scale-110 transition-transform">
@@ -36,11 +41,11 @@ export default function Contact() {
                 </svg>
               </span>
               <span className="font-[family-name:var(--font-cormorant)] text-lg tracking-wide">
-                (206) 206-9868
+                {phone}
               </span>
             </a>
             <a
-              href="mailto:pictureyour2day@gmail.com"
+              href={`mailto:${email}`}
               className="group flex items-center gap-4 text-[var(--foreground)] hover:text-[var(--gold)] transition-colors duration-300"
             >
               <span className="text-[var(--gold)] group-hover:scale-110 transition-transform">
@@ -59,13 +64,13 @@ export default function Contact() {
                 </svg>
               </span>
               <span className="font-[family-name:var(--font-cormorant)] text-lg tracking-wide">
-                pictureyour2day@gmail.com
+                {email}
               </span>
             </a>
           </div>
 
           <a
-            href="mailto:pictureyour2day@gmail.com"
+            href={`mailto:${email}`}
             className="inline-block mt-12 px-10 py-4 bg-[var(--accent-red)] text-white font-medium tracking-[0.2em] uppercase text-sm hover:bg-[#a52d3d] transition-colors duration-300"
           >
             Book Your Session

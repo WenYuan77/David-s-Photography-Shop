@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function About() {
   return (
     <section id="about" className="scroll-mt-24 py-24 md:py-32">
@@ -28,11 +30,14 @@ export default function About() {
           </div>
           <div className="relative">
             <div className="aspect-[4/5] relative overflow-hidden">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url('/portfolio_pictures/Engagement/Couple3.jpeg')`,
-                }}
+              <Image
+                src="/portfolio_pictures/Engagement/Couple3.jpeg"
+                alt=""
+                fill
+                className="object-cover object-center"
+                loading="lazy"
+                quality={88}
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 border border-[var(--gold)]/30 m-6 pointer-events-none" />
             </div>

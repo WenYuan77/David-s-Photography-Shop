@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -7,12 +9,17 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-10" />
 
       {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('/portfolio_pictures/Wedding/W7.jpeg')`,
-        }}
-      />
+      <div className="absolute inset-0">
+        <Image
+          src="/portfolio_pictures/Wedding/W7.jpeg"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+          quality={88}
+          sizes="100vw"
+        />
+      </div>
 
       <div className="relative z-20 mx-auto max-w-7xl px-6 text-center">
         <p className="font-[family-name:var(--font-playfair)] text-[var(--gold)] tracking-[0.4em] uppercase text-sm mb-4 animate-fade-in">

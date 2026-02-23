@@ -55,7 +55,7 @@ export default function Header() {
         </label>
       </nav>
 
-      {/* Mobile menu - shown when checkbox checked. md:!hidden 强制大屏隐藏 */}
+      {/* Mobile menu - shown when checkbox checked. md:!hidden forces hide on large screens */}
       <div className="mobile-menu md:!hidden border-t border-[var(--border)]/50 px-6 py-4">
         <div className="flex flex-col gap-4">
           {navItems.map((item) => (

@@ -95,7 +95,7 @@ body {
   animation: bounce-slow 2.5s ease-in-out infinite;
 }
 
-/* Mobile menu - 默认隐藏，checkbox 勾选时显示。大屏由 md:!hidden 强制隐藏 */
+/* Mobile menu - hidden by default, shown when checkbox checked. md:!hidden forces hide on large screens */
 .mobile-menu {
   display: none;
 }
@@ -136,19 +136,6 @@ header:has(.mobile-menu-cb:checked) .mobile-menu {
   left: 0;
   right: 0;
 }
-/* Category panel visible when targeted - grid is on inner divs now */
-#portfolio-section:has(#portfolio-Wedding:target) .portfolio-panel-category[data-category="Wedding"],
-#portfolio-section:has(#portfolio-Engagement:target) .portfolio-panel-category[data-category="Engagement"],
-#portfolio-section:has(#portfolio-Family-Children:target) .portfolio-panel-category[data-category="Family-Children"],
-#portfolio-section:has(#portfolio-Portrait:target) .portfolio-panel-category[data-category="Portrait"],
-#portfolio-section:has(#portfolio-Pets:target) .portfolio-panel-category[data-category="Pets"],
-#portfolio-section:has(#portfolio-Automotive:target) .portfolio-panel-category[data-category="Automotive"],
-#portfolio-section:has(#portfolio-Events:target) .portfolio-panel-category[data-category="Events"] {
-  display: block;
-  position: relative;
-  width: 100%;
-  min-width: 0;
-}
 .portfolio-panel-category .grid > * {
   min-width: 0;
 }
@@ -182,16 +169,6 @@ header:has(.mobile-menu-cb:checked) .mobile-menu {
 .portfolio-expand-wrapper .portfolio-show-more-cb:checked ~ .portfolio-more-label .portfolio-text-less {
   display: inline;
 }
-#portfolio-section:has(#portfolio-Wedding:target) #portfolio-all,
-#portfolio-section:has(#portfolio-Engagement:target) #portfolio-all,
-#portfolio-section:has(#portfolio-Family-Children:target) #portfolio-all,
-#portfolio-section:has(#portfolio-Portrait:target) #portfolio-all,
-#portfolio-section:has(#portfolio-Pets:target) #portfolio-all,
-#portfolio-section:has(#portfolio-Automotive:target) #portfolio-all,
-#portfolio-section:has(#portfolio-Events:target) #portfolio-all {
-  display: none !important;
-}
-
 /* Subtle gold gradient divider */
 .divider-gold {
   height: 1px;
