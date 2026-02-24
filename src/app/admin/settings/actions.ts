@@ -1,8 +1,15 @@
 "use server";
 
+import { redirect } from "next/navigation";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { revalidatePath } from "next/cache";
 import { createServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
+
+const BUCKET = "portfolio";
+const HERO_PATH = "site/hero";
+const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
+const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
 export type SaveSiteSettingsResult = { success: true } | { success: false; error: string };
 
@@ -76,5 +83,70 @@ export async function saveSiteSettings(
       success: false,
       error: err instanceof Error ? err.message : "Save failed",
     };
+  }
+}
+
+export async function uploadHeroImageAction(formData: FormData) {
+  if (!(await isAdmin())) {
+    redirect("/admin/login");
+  }
+  if (!isSupabaseConfigured()) {
+    redirect("/admin/settings?error=config");
+  }
+
+  const file = formData.get("file") as File | null;
+  if (!file || file.size === 0) {
+    redirect("/admin/settings?error=no-file");
+  }
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    redirect("/admin/settings?error=invalid-type");
+  }
+  if (file.size > MAX_SIZE) {
+    redirect("/admin/settings?error=file-too-large");
+  }
+
+  try {
+    const supabase = createServerClient();
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${HERO_PATH}.${ext}`;
+
+    const buffer = await file.arrayBuffer();
+    const { error: uploadError } = await supabase.storage
+      .from(BUCKET)
+      .upload(path, buffer, {
+        contentType: file.type,
+        upsert: true,
+      });
+
+    if (uploadError) {
+      console.error("hero upload error:", uploadError);
+      redirect("/admin/settings?error=upload-failed");
+    }
+
+    const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(path);
+    const hero_image_url = urlData.publicUrl;
+
+    const { data: existing } = await supabase
+      .from("site_settings")
+      .select("id")
+      .limit(1)
+      .single();
+
+    if (existing?.id) {
+      await supabase
+        .from("site_settings")
+        .update({ hero_image_url, updated_at: new Date().toISOString() })
+        .eq("id", existing.id);
+    } else {
+      await supabase.from("site_settings").insert({ hero_image_url });
+    }
+
+    revalidatePath("/admin/settings");
+    revalidatePath("/");
+    redirect("/admin/settings");
+  } catch (err) {
+    if (isRedirectError(err)) throw err;
+    console.error("hero upload error:", err);
+    redirect("/admin/settings?error=failed");
   }
 }

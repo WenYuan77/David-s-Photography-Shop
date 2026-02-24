@@ -34,7 +34,7 @@ To enable the admin panel (`/admin`), you need to configure Supabase and environ
 
 In Supabase **SQL Editor**, run the contents of `supabase/schema.sql`.
 
-If you already have an existing database, run `supabase/migration-videos.sql` to add video URL columns.
+If you already have an existing database, run `supabase/migration-videos.sql` and `supabase/migration-hero.sql` to add video and hero image columns.
 
 ### 3. Create the Storage Bucket
 

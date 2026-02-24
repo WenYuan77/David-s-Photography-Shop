@@ -1,17 +1,68 @@
 "use client";
 
 import { useActionState } from "react";
-import { saveSiteSettings } from "./actions";
+import Image from "next/image";
+import { saveSiteSettings, uploadHeroImageAction } from "./actions";
 import type { SiteSettingsFull } from "@/lib/site-settings";
 
 export default function AdminSettingsForm({
   initialData,
+  heroError = null,
 }: {
   initialData: SiteSettingsFull;
+  heroError?: string | null;
 }) {
   const [state, formAction, isPending] = useActionState(saveSiteSettings, null);
+  const heroUrl = initialData.hero_image_url?.trim() || null;
 
   return (
+    <div className="space-y-8">
+      {/* Hero Image */}
+      <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
+        <h2 className="text-lg text-white mb-4">Hero Image</h2>
+        <p className="text-sm text-[var(--muted)] mb-4">
+          The main background image on the homepage. Max 10MB. JPEG, PNG, WebP, GIF.
+        </p>
+        {heroUrl && (
+          <div className="mb-4">
+            <div className="relative aspect-[3/2] max-w-md overflow-hidden bg-[var(--border)]">
+              <Image
+                src={heroUrl}
+                alt="Current hero"
+                fill
+                className="object-cover"
+                sizes="400px"
+              />
+            </div>
+            <a
+              href="/api/site/hero/download"
+              className="inline-block mt-2 text-xs text-[var(--gold)] hover:underline cursor-pointer"
+            >
+              Download
+            </a>
+          </div>
+        )}
+        {heroError && (
+          <p className="text-[var(--accent-red)] text-sm mb-4">{heroError}</p>
+        )}
+        <form action={uploadHeroImageAction} className="flex flex-wrap gap-4 items-end">
+          <input
+            type="file"
+            name="file"
+            accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+            required
+            className="block text-sm text-[var(--foreground)] file:mr-3 file:py-2 file:px-4 file:rounded-none file:border file:border-[var(--gold)] file:bg-transparent file:text-[var(--gold)] file:text-sm file:cursor-pointer"
+          />
+          <button
+            type="submit"
+            className="py-2 px-6 border border-[var(--gold)] text-[var(--gold)] text-sm font-medium tracking-wider uppercase cursor-pointer hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors"
+          >
+            Upload
+          </button>
+        </form>
+      </section>
+
+      {/* Site Settings Form */}
     <form action={formAction} className="space-y-6">
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
@@ -121,5 +172,6 @@ export default function AdminSettingsForm({
         {isPending ? "Saving..." : "Save"}
       </button>
     </form>
+    </div>
   );
 }

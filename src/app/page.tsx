@@ -18,7 +18,7 @@ export default async function Home() {
     <>
       <Header />
       <main>
-        <Hero />
+        <Hero heroImageUrl={siteSettings.hero_image_url || null} />
         <About />
         <VideoSection
           url={siteSettings.intro_video_url}

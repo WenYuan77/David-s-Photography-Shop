@@ -2,7 +2,15 @@
 
 import Image from "next/image";
 
-export default function Hero() {
+const DEFAULT_HERO = "/portfolio_pictures/Wedding/W7.jpeg";
+
+type Props = {
+  heroImageUrl?: string | null;
+};
+
+export default function Hero({ heroImageUrl }: Props) {
+  const src = heroImageUrl?.trim() || DEFAULT_HERO;
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Dark overlay for contrast */}
@@ -11,7 +19,7 @@ export default function Hero() {
       {/* Background image */}
       <div className="absolute inset-0">
         <Image
-          src="/portfolio_pictures/Wedding/W7.jpeg"
+          src={src}
           alt=""
           fill
           className="object-cover object-center"

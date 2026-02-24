@@ -9,6 +9,7 @@ const DEFAULTS = {
   seo_keywords: ["photography", "Final Stage", "wedding photography", "portrait", "Seattle"],
   intro_video_url: "",
   proposal_video_url: "",
+  hero_image_url: "",
 };
 
 export type SiteSettings = {
@@ -16,6 +17,7 @@ export type SiteSettings = {
   email: string;
   intro_video_url: string;
   proposal_video_url: string;
+  hero_image_url: string;
 };
 
 export type SiteSettingsFull = SiteSettings & {
@@ -32,7 +34,7 @@ export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
     const supabase = createServerClient();
     const { data } = await supabase
       .from("site_settings")
-      .select("phone, email, seo_title, seo_description, seo_keywords, intro_video_url, proposal_video_url")
+      .select("phone, email, seo_title, seo_description, seo_keywords, intro_video_url, proposal_video_url, hero_image_url")
       .limit(1)
       .single();
 
@@ -44,6 +46,7 @@ export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
       seo_keywords: Array.isArray(data?.seo_keywords) ? data.seo_keywords : DEFAULTS.seo_keywords,
       intro_video_url: data?.intro_video_url ?? DEFAULTS.intro_video_url,
       proposal_video_url: data?.proposal_video_url ?? DEFAULTS.proposal_video_url,
+      hero_image_url: data?.hero_image_url ?? DEFAULTS.hero_image_url,
     };
   } catch {
     return DEFAULTS;
@@ -58,7 +61,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     const supabase = createServerClient();
     const { data } = await supabase
       .from("site_settings")
-      .select("phone, email, intro_video_url, proposal_video_url")
+      .select("phone, email, intro_video_url, proposal_video_url, hero_image_url")
       .limit(1)
       .single();
 
@@ -67,6 +70,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       email: data?.email ?? DEFAULTS.email,
       intro_video_url: data?.intro_video_url ?? DEFAULTS.intro_video_url,
       proposal_video_url: data?.proposal_video_url ?? DEFAULTS.proposal_video_url,
+      hero_image_url: data?.hero_image_url ?? DEFAULTS.hero_image_url,
     };
   } catch {
     return DEFAULTS;
