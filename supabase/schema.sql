@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS site_settings (
   seo_title TEXT DEFAULT 'Final Stage | Professional Photography',
   seo_description TEXT DEFAULT 'Where moments become masterpieces. Professional photography studio specializing in weddings, portraits, and commercial work.',
   seo_keywords TEXT[] DEFAULT ARRAY['photography', 'Final Stage', 'wedding photography', 'portrait', 'Seattle'],
+  intro_video_url TEXT DEFAULT '',
+  proposal_video_url TEXT DEFAULT '',
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 

@@ -34,6 +34,8 @@ To enable the admin panel (`/admin`), you need to configure Supabase and environ
 
 In Supabase **SQL Editor**, run the contents of `supabase/schema.sql`.
 
+If you already have an existing database, run `supabase/migration-videos.sql` to add video URL columns.
+
 ### 3. Create the Storage Bucket
 
 In Supabase **Storage**:
@@ -67,7 +69,7 @@ Ensure `.env.local` exists with your Supabase credentials.
 
 Visit `/admin`, enter your `ADMIN_PASSWORD`, and manage:
 
-- **Site Settings** — Phone, email, SEO (title, description, keywords)
+- **Site Settings** — Phone, email, SEO (title, description, keywords), intro video URL, proposal video URL
 - **Categories** — Add, edit, or delete portfolio categories
 - **Portfolio** — Upload, edit, or delete images
 

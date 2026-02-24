@@ -46,7 +46,7 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json();
-    const { phone, email, seo_title, seo_description, seo_keywords } = body;
+    const { phone, email, seo_title, seo_description, seo_keywords, intro_video_url, proposal_video_url } = body;
 
     const supabase = createServerClient();
 
@@ -60,6 +60,8 @@ export async function PUT(request: Request) {
     if (seo_title !== undefined) payload.seo_title = seo_title;
     if (seo_description !== undefined) payload.seo_description = seo_description;
     if (seo_keywords !== undefined) payload.seo_keywords = seo_keywords;
+    if (intro_video_url !== undefined) payload.intro_video_url = intro_video_url;
+    if (proposal_video_url !== undefined) payload.proposal_video_url = proposal_video_url;
 
     let result;
     if (existing) {

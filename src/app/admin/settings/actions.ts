@@ -27,6 +27,8 @@ export async function saveSiteSettings(
     const seo_keywords = keywordsStr
       ? keywordsStr.split(",").map((s) => s.trim()).filter(Boolean)
       : [];
+    const intro_video_url = String(formData.get("intro_video_url") ?? "").trim();
+    const proposal_video_url = String(formData.get("proposal_video_url") ?? "").trim();
 
     const supabase = createServerClient();
     const { data: existing } = await supabase
@@ -42,6 +44,8 @@ export async function saveSiteSettings(
       seo_title,
       seo_description,
       seo_keywords,
+      intro_video_url,
+      proposal_video_url,
     };
 
     if (existing?.id) {

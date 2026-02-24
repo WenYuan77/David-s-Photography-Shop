@@ -73,6 +73,36 @@ export default function AdminSettingsForm({
           className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
       </div>
+      <div>
+        <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
+          Intro Video URL (Google Drive)
+        </label>
+        <input
+          type="url"
+          name="intro_video_url"
+          defaultValue={initialData.intro_video_url ?? ""}
+          placeholder="https://drive.google.com/file/d/.../view"
+          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
+        />
+        <p className="text-xs text-[var(--muted)] mt-1">
+          Paste the share link. Leave empty to hide the section.
+        </p>
+      </div>
+      <div>
+        <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
+          Proposal / Featured Video URL (Google Drive)
+        </label>
+        <input
+          type="url"
+          name="proposal_video_url"
+          defaultValue={initialData.proposal_video_url ?? ""}
+          placeholder="https://drive.google.com/file/d/.../view"
+          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
+        />
+        <p className="text-xs text-[var(--muted)] mt-1">
+          Paste the share link. Leave empty to hide the section.
+        </p>
+      </div>
       {state?.success === false && (
         <p className="text-[var(--accent-red)] text-sm">
           Save failed: {state.error}
