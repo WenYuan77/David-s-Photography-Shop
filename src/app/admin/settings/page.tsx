@@ -17,7 +17,7 @@ export default async function AdminSettingsPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  const initialData = await getSiteSettingsFull();
+  const initialData = await getSiteSettingsFull({ forAdmin: true });
   const params = await searchParams;
   const heroError = params.error ? HERO_ERRORS[params.error] ?? params.error : null;
 

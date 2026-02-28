@@ -30,7 +30,12 @@ export type SiteSettingsFull = SiteSettings & {
   seo_keywords: string[];
 };
 
-export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
+type GetSiteSettingsFullOpts = { forAdmin?: boolean };
+
+export async function getSiteSettingsFull(
+  opts?: GetSiteSettingsFullOpts
+): Promise<SiteSettingsFull> {
+  const forAdmin = opts?.forAdmin ?? false;
   if (!isSupabaseConfigured()) {
     return DEFAULTS;
   }
@@ -42,6 +47,21 @@ export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
       .limit(1)
       .single();
 
+    const introAutoplay = forAdmin
+      ? (data?.intro_video_autoplay ?? DEFAULTS.intro_video_autoplay)
+      : (() => {
+          const customized = data?.autoplay_customized ?? false;
+          if (!customized) return true;
+          return data?.intro_video_autoplay ?? DEFAULTS.intro_video_autoplay;
+        })();
+    const proposalAutoplay = forAdmin
+      ? (data?.proposal_video_autoplay ?? DEFAULTS.proposal_video_autoplay)
+      : (() => {
+          const customized = data?.autoplay_customized ?? false;
+          if (!customized) return false;
+          return data?.proposal_video_autoplay ?? DEFAULTS.proposal_video_autoplay;
+        })();
+
     return {
       phone: data?.phone ?? DEFAULTS.phone,
       email: data?.email ?? DEFAULTS.email,
@@ -50,16 +70,8 @@ export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
       seo_keywords: Array.isArray(data?.seo_keywords) ? data.seo_keywords : DEFAULTS.seo_keywords,
       intro_video_url: data?.intro_video_url ?? DEFAULTS.intro_video_url,
       proposal_video_url: data?.proposal_video_url ?? DEFAULTS.proposal_video_url,
-      intro_video_autoplay: (() => {
-        const customized = data?.autoplay_customized ?? false;
-        if (!customized) return true;
-        return data?.intro_video_autoplay ?? DEFAULTS.intro_video_autoplay;
-      })(),
-      proposal_video_autoplay: (() => {
-        const customized = data?.autoplay_customized ?? false;
-        if (!customized) return false;
-        return data?.proposal_video_autoplay ?? DEFAULTS.proposal_video_autoplay;
-      })(),
+      intro_video_autoplay: introAutoplay,
+      proposal_video_autoplay: proposalAutoplay,
       hero_image_url: data?.hero_image_url ?? DEFAULTS.hero_image_url,
     };
   } catch {
