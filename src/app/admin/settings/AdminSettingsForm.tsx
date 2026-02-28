@@ -240,6 +240,10 @@ export default function AdminSettingsForm({
       <button
         type="submit"
         disabled={isPending}
+        onClick={() => {
+          sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY));
+          sessionStorage.setItem("adminAutoplayJustSaved", autoplayChoice);
+        }}
         className="w-full py-3 border border-[var(--gold)] text-[var(--gold)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--gold)] hover:text-[var(--background)] transition-all disabled:opacity-50 cursor-pointer"
       >
         {isPending ? "Saving..." : "Save"}
