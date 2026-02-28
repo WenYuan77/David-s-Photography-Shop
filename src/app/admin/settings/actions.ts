@@ -11,7 +11,9 @@ const HERO_PATH = "site/hero";
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
-export type SaveSiteSettingsResult = { success: true } | { success: false; error: string };
+export type SaveSiteSettingsResult =
+  | { success: true; intro_video_autoplay: boolean; proposal_video_autoplay: boolean }
+  | { success: false; error: string };
 
 export async function saveSiteSettings(
   _prev: SaveSiteSettingsResult | null,
@@ -83,7 +85,11 @@ export async function saveSiteSettings(
     revalidatePath("/admin/settings");
     revalidatePath("/");
 
-    return { success: true };
+    return {
+      success: true,
+      intro_video_autoplay,
+      proposal_video_autoplay,
+    };
   } catch (err) {
     console.error("site-settings save error:", err);
     return {

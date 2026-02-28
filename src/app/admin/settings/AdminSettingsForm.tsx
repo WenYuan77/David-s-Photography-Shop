@@ -18,17 +18,19 @@ export default function AdminSettingsForm({
   // Single source of truth: only one can be selected; impossible to have both checked
   type AutoplayChoice = "intro" | "proposal" | "none";
   const [autoplayChoice, setAutoplayChoice] = useState<AutoplayChoice>(() => {
-    if (typeof window !== "undefined") {
-      const saved = sessionStorage.getItem("adminAutoplayJustSaved");
-      if (saved === "intro" || saved === "proposal" || saved === "none") {
-        sessionStorage.removeItem("adminAutoplayJustSaved");
-        return saved;
-      }
-    }
     if (initialData.intro_video_autoplay) return "intro";
     if (initialData.proposal_video_autoplay) return "proposal";
     return "none";
   });
+
+  // After successful save, sync autoplayChoice from server response (source of truth)
+  useEffect(() => {
+    if (state?.success === true && "intro_video_autoplay" in state) {
+      if (state.intro_video_autoplay) setAutoplayChoice("intro");
+      else if (state.proposal_video_autoplay) setAutoplayChoice("proposal");
+      else setAutoplayChoice("none");
+    }
+  }, [state]);
 
   // Preserve scroll position after save
   useEffect(() => {
@@ -92,10 +94,7 @@ export default function AdminSettingsForm({
     <form
       action={formAction}
       className="space-y-6"
-      onSubmit={() => {
-        sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY));
-        sessionStorage.setItem("adminAutoplayJustSaved", autoplayChoice);
-      }}
+      onSubmit={() => sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY))}
     >
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
@@ -240,10 +239,7 @@ export default function AdminSettingsForm({
       <button
         type="submit"
         disabled={isPending}
-        onClick={() => {
-          sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY));
-          sessionStorage.setItem("adminAutoplayJustSaved", autoplayChoice);
-        }}
+        onClick={() => sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY))}
         className="w-full py-3 border border-[var(--gold)] text-[var(--gold)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--gold)] hover:text-[var(--background)] transition-all disabled:opacity-50 cursor-pointer"
       >
         {isPending ? "Saving..." : "Save"}
