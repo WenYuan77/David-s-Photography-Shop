@@ -18,6 +18,13 @@ export default function AdminSettingsForm({
   // Single source of truth: only one can be selected; impossible to have both checked
   type AutoplayChoice = "intro" | "proposal" | "none";
   const [autoplayChoice, setAutoplayChoice] = useState<AutoplayChoice>(() => {
+    if (typeof window !== "undefined") {
+      const saved = sessionStorage.getItem("adminAutoplayJustSaved");
+      if (saved === "intro" || saved === "proposal" || saved === "none") {
+        sessionStorage.removeItem("adminAutoplayJustSaved");
+        return saved;
+      }
+    }
     if (initialData.intro_video_autoplay) return "intro";
     if (initialData.proposal_video_autoplay) return "proposal";
     return "none";
@@ -85,7 +92,10 @@ export default function AdminSettingsForm({
     <form
       action={formAction}
       className="space-y-6"
-      onSubmit={() => sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY))}
+      onSubmit={() => {
+        sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY));
+        sessionStorage.setItem("adminAutoplayJustSaved", autoplayChoice);
+      }}
     >
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
