@@ -10,6 +10,9 @@ CREATE TABLE IF NOT EXISTS site_settings (
   seo_keywords TEXT[] DEFAULT ARRAY['photography', 'Final Stage', 'wedding photography', 'portrait', 'Seattle'],
   intro_video_url TEXT DEFAULT '',
   proposal_video_url TEXT DEFAULT '',
+  intro_video_autoplay BOOLEAN DEFAULT false,
+  proposal_video_autoplay BOOLEAN DEFAULT false,
+  autoplay_customized BOOLEAN DEFAULT false,
   hero_image_url TEXT DEFAULT '',
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );

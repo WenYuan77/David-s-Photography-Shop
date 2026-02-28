@@ -9,6 +9,8 @@ const DEFAULTS = {
   seo_keywords: ["photography", "Final Stage", "wedding photography", "portrait", "Seattle"],
   intro_video_url: "",
   proposal_video_url: "",
+  intro_video_autoplay: false,
+  proposal_video_autoplay: false,
   hero_image_url: "",
 };
 
@@ -17,6 +19,8 @@ export type SiteSettings = {
   email: string;
   intro_video_url: string;
   proposal_video_url: string;
+  intro_video_autoplay: boolean;
+  proposal_video_autoplay: boolean;
   hero_image_url: string;
 };
 
@@ -34,7 +38,7 @@ export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
     const supabase = createServerClient();
     const { data } = await supabase
       .from("site_settings")
-      .select("phone, email, seo_title, seo_description, seo_keywords, intro_video_url, proposal_video_url, hero_image_url")
+      .select("phone, email, seo_title, seo_description, seo_keywords, intro_video_url, proposal_video_url, intro_video_autoplay, proposal_video_autoplay, autoplay_customized, hero_image_url")
       .limit(1)
       .single();
 
@@ -46,6 +50,16 @@ export async function getSiteSettingsFull(): Promise<SiteSettingsFull> {
       seo_keywords: Array.isArray(data?.seo_keywords) ? data.seo_keywords : DEFAULTS.seo_keywords,
       intro_video_url: data?.intro_video_url ?? DEFAULTS.intro_video_url,
       proposal_video_url: data?.proposal_video_url ?? DEFAULTS.proposal_video_url,
+      intro_video_autoplay: (() => {
+        const customized = data?.autoplay_customized ?? false;
+        if (!customized) return true;
+        return data?.intro_video_autoplay ?? DEFAULTS.intro_video_autoplay;
+      })(),
+      proposal_video_autoplay: (() => {
+        const customized = data?.autoplay_customized ?? false;
+        if (!customized) return false;
+        return data?.proposal_video_autoplay ?? DEFAULTS.proposal_video_autoplay;
+      })(),
       hero_image_url: data?.hero_image_url ?? DEFAULTS.hero_image_url,
     };
   } catch {
@@ -61,7 +75,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     const supabase = createServerClient();
     const { data } = await supabase
       .from("site_settings")
-      .select("phone, email, intro_video_url, proposal_video_url, hero_image_url")
+      .select("phone, email, intro_video_url, proposal_video_url, intro_video_autoplay, proposal_video_autoplay, autoplay_customized, hero_image_url")
       .limit(1)
       .single();
 
@@ -70,6 +84,16 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       email: data?.email ?? DEFAULTS.email,
       intro_video_url: data?.intro_video_url ?? DEFAULTS.intro_video_url,
       proposal_video_url: data?.proposal_video_url ?? DEFAULTS.proposal_video_url,
+      intro_video_autoplay: (() => {
+        const customized = data?.autoplay_customized ?? false;
+        if (!customized) return true;
+        return data?.intro_video_autoplay ?? DEFAULTS.intro_video_autoplay;
+      })(),
+      proposal_video_autoplay: (() => {
+        const customized = data?.autoplay_customized ?? false;
+        if (!customized) return false;
+        return data?.proposal_video_autoplay ?? DEFAULTS.proposal_video_autoplay;
+      })(),
       hero_image_url: data?.hero_image_url ?? DEFAULTS.hero_image_url,
     };
   } catch {

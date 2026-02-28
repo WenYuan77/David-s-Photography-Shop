@@ -25,6 +25,7 @@ export default async function Home() {
           title="Our Studio"
           subtitle="Video"
           sectionId="intro-video"
+          autoplay={siteSettings.intro_video_autoplay}
         />
         <Portfolio categories={categories} images={images} />
         <VideoSection
@@ -33,6 +34,7 @@ export default async function Home() {
           subtitle="Proposal Reel"
           sectionId="proposal-video"
           dark
+          autoplay={siteSettings.proposal_video_autoplay}
         />
         <Services />
         <Contact phone={siteSettings.phone} email={siteSettings.email} />

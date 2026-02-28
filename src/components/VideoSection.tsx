@@ -1,4 +1,4 @@
-import { googleDriveUrlToEmbed } from "@/lib/video-embed";
+import { urlToEmbed } from "@/lib/video-embed";
 
 type Props = {
   url: string;
@@ -6,10 +6,11 @@ type Props = {
   subtitle?: string;
   sectionId?: string;
   dark?: boolean;
+  autoplay?: boolean;
 };
 
-export default function VideoSection({ url, title, subtitle, sectionId, dark }: Props) {
-  const embedUrl = googleDriveUrlToEmbed(url);
+export default function VideoSection({ url, title, subtitle, sectionId, dark, autoplay }: Props) {
+  const embedUrl = urlToEmbed(url, autoplay);
   if (!embedUrl) return null;
 
   return (

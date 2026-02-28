@@ -36,6 +36,10 @@ export async function saveSiteSettings(
       : [];
     const intro_video_url = String(formData.get("intro_video_url") ?? "").trim();
     const proposal_video_url = String(formData.get("proposal_video_url") ?? "").trim();
+    // Radio value: "intro" | "proposal" | "none" – single source of truth
+    const autoplayChoice = String(formData.get("autoplay_choice") ?? "none").trim();
+    const intro_video_autoplay = autoplayChoice === "intro";
+    const proposal_video_autoplay = autoplayChoice === "proposal";
 
     const supabase = createServerClient();
     const { data: existing } = await supabase
@@ -53,6 +57,9 @@ export async function saveSiteSettings(
       seo_keywords,
       intro_video_url,
       proposal_video_url,
+      intro_video_autoplay,
+      proposal_video_autoplay,
+      autoplay_customized: true,
     };
 
     if (existing?.id) {

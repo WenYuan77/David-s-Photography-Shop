@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import Image from "next/image";
 import { saveSiteSettings, uploadHeroImageAction } from "./actions";
 import type { SiteSettingsFull } from "@/lib/site-settings";
@@ -14,6 +14,25 @@ export default function AdminSettingsForm({
 }) {
   const [state, formAction, isPending] = useActionState(saveSiteSettings, null);
   const heroUrl = initialData.hero_image_url?.trim() || null;
+
+  // Single source of truth: only one can be selected; impossible to have both checked
+  type AutoplayChoice = "intro" | "proposal" | "none";
+  const [autoplayChoice, setAutoplayChoice] = useState<AutoplayChoice>(() => {
+    if (initialData.intro_video_autoplay) return "intro";
+    if (initialData.proposal_video_autoplay) return "proposal";
+    return "none";
+  });
+
+  // Preserve scroll position after save
+  useEffect(() => {
+    if (state !== null) {
+      const y = sessionStorage.getItem("adminSettingsScrollY");
+      if (y != null) {
+        window.scrollTo(0, Number(y));
+        sessionStorage.removeItem("adminSettingsScrollY");
+      }
+    }
+  }, [state]);
 
   return (
     <div className="space-y-8">
@@ -63,7 +82,11 @@ export default function AdminSettingsForm({
       </section>
 
       {/* Site Settings Form */}
-    <form action={formAction} className="space-y-6">
+    <form
+      action={formAction}
+      className="space-y-6"
+      onSubmit={() => sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY))}
+    >
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
           Phone
@@ -126,33 +149,73 @@ export default function AdminSettingsForm({
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          Intro Video URL (Google Drive)
+          Intro Video URL (Vimeo)
         </label>
         <input
           type="url"
           name="intro_video_url"
           defaultValue={initialData.intro_video_url ?? ""}
-          placeholder="https://drive.google.com/file/d/.../view"
+          placeholder="https://vimeo.com/123456789"
           className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
         <p className="text-xs text-[var(--muted)] mt-1">
-          Paste the share link. Leave empty to hide the section.
+          Paste the Vimeo share link. Leave empty to hide the section.
         </p>
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          Proposal / Featured Video URL (Google Drive)
+          Proposal / Featured Video URL (Vimeo)
         </label>
         <input
           type="url"
           name="proposal_video_url"
           defaultValue={initialData.proposal_video_url ?? ""}
-          placeholder="https://drive.google.com/file/d/.../view"
+          placeholder="https://vimeo.com/123456789"
           className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
         <p className="text-xs text-[var(--muted)] mt-1">
-          Paste the share link. Leave empty to hide the section.
+          Paste the Vimeo share link. Leave empty to hide the section.
         </p>
+      </div>
+      <div>
+        <p className="block text-sm text-[var(--muted)] mb-3 uppercase tracking-wider">
+          Auto-play video
+        </p>
+        <fieldset className="space-y-2">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="autoplay_choice"
+              value="none"
+              checked={autoplayChoice === "none"}
+              onChange={() => setAutoplayChoice("none")}
+              className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)]"
+            />
+            <span className="text-sm text-[var(--foreground)]">No autoplay</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="autoplay_choice"
+              value="intro"
+              checked={autoplayChoice === "intro"}
+              onChange={() => setAutoplayChoice("intro")}
+              className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)]"
+            />
+            <span className="text-sm text-[var(--foreground)]">Auto-play intro video</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="autoplay_choice"
+              value="proposal"
+              checked={autoplayChoice === "proposal"}
+              onChange={() => setAutoplayChoice("proposal")}
+              className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)]"
+            />
+            <span className="text-sm text-[var(--foreground)]">Auto-play proposal video</span>
+          </label>
+        </fieldset>
       </div>
       {state?.success === false && (
         <p className="text-[var(--accent-red)] text-sm">
