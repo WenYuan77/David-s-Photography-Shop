@@ -15,20 +15,15 @@ export default function AdminSettingsForm({
   const [state, formAction, isPending] = useActionState(saveSiteSettings, null);
   const heroUrl = initialData.hero_image_url?.trim() || null;
 
-  // Single source of truth: only one can be selected; impossible to have both checked
-  type AutoplayChoice = "intro" | "proposal" | "none";
-  const [autoplayChoice, setAutoplayChoice] = useState<AutoplayChoice>(() => {
-    if (initialData.intro_video_autoplay) return "intro";
-    if (initialData.proposal_video_autoplay) return "proposal";
-    return "none";
+  // Intro video autoplay only; proposal video never autoplays (no admin option)
+  const [introAutoplay, setIntroAutoplay] = useState<boolean>(() => {
+    return initialData.intro_video_autoplay ?? false;
   });
 
-  // After successful save, sync autoplayChoice from server response (source of truth)
+  // After successful save, sync introAutoplay from server response (source of truth)
   useEffect(() => {
     if (state?.success === true && "intro_video_autoplay" in state) {
-      if (state.intro_video_autoplay) setAutoplayChoice("intro");
-      else if (state.proposal_video_autoplay) setAutoplayChoice("proposal");
-      else setAutoplayChoice("none");
+      setIntroAutoplay(state.intro_video_autoplay);
     }
   }, [state]);
 
@@ -187,44 +182,17 @@ export default function AdminSettingsForm({
         </p>
       </div>
       <div>
-        <p className="block text-sm text-[var(--muted)] mb-3 uppercase tracking-wider">
-          Auto-play video
-        </p>
-        <fieldset className="space-y-2">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="autoplay_choice"
-              value="none"
-              checked={autoplayChoice === "none"}
-              onChange={() => setAutoplayChoice("none")}
-              className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)]"
-            />
-            <span className="text-sm text-[var(--foreground)]">No autoplay</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="autoplay_choice"
-              value="intro"
-              checked={autoplayChoice === "intro"}
-              onChange={() => setAutoplayChoice("intro")}
-              className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)]"
-            />
-            <span className="text-sm text-[var(--foreground)]">Auto-play intro video</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="autoplay_choice"
-              value="proposal"
-              checked={autoplayChoice === "proposal"}
-              onChange={() => setAutoplayChoice("proposal")}
-              className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)]"
-            />
-            <span className="text-sm text-[var(--foreground)]">Auto-play proposal video</span>
-          </label>
-        </fieldset>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            name="intro_video_autoplay"
+            value="true"
+            checked={introAutoplay}
+            onChange={(e) => setIntroAutoplay(e.target.checked)}
+            className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)] rounded"
+          />
+          <span className="text-sm text-[var(--foreground)]">Auto-play intro video</span>
+        </label>
       </div>
       {state?.success === false && (
         <p className="text-[var(--accent-red)] text-sm">
