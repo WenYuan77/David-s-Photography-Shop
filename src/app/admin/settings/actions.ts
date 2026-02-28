@@ -82,7 +82,6 @@ export async function saveSiteSettings(
     }
 
     revalidatePath("/admin");
-    revalidatePath("/admin/settings");
     revalidatePath("/");
 
     return {
