@@ -17,8 +17,11 @@ function slugify(str: string): string {
     .toLowerCase();
 }
 
-function getRedirectUrl(filter: string, error?: string): string {
-  const base = "/admin/portfolio";
+const LOCALES = ["en", "zh", "th", "es"];
+
+function getRedirectUrl(locale: string, filter: string, error?: string): string {
+  const loc = locale && LOCALES.includes(locale) ? locale : "en";
+  const base = `/${loc}/admin/portfolio`;
   const qs = new URLSearchParams();
   if (filter && filter !== "All") qs.set("filter", filter);
   if (error) qs.set("error", error);
@@ -27,8 +30,9 @@ function getRedirectUrl(filter: string, error?: string): string {
 }
 
 export async function uploadPortfolioAction(formData: FormData) {
+  const locale = String(formData.get("locale") ?? "en");
   if (!(await isAdmin())) {
-    redirect("/admin/login");
+    redirect(`/${locale}/admin/login`);
   }
 
   const file = formData.get("file") as File | null;
@@ -37,16 +41,16 @@ export async function uploadPortfolioAction(formData: FormData) {
   const filter = String(formData.get("filter") ?? "").trim();
 
   if (!file || file.size === 0) {
-    redirect(getRedirectUrl(filter, "no-file"));
+    redirect(getRedirectUrl(locale, filter, "no-file"));
   }
   if (!categoryId || categoryId === "All") {
-    redirect(getRedirectUrl(filter, "no-category"));
+    redirect(getRedirectUrl(locale, filter, "no-category"));
   }
   if (!ALLOWED_TYPES.includes(file.type)) {
-    redirect(getRedirectUrl(filter, "invalid-type"));
+    redirect(getRedirectUrl(locale, filter, "invalid-type"));
   }
   if (file.size > MAX_SIZE) {
-    redirect(getRedirectUrl(filter, "file-too-large"));
+    redirect(getRedirectUrl(locale, filter, "file-too-large"));
   }
 
   try {
@@ -67,7 +71,7 @@ export async function uploadPortfolioAction(formData: FormData) {
 
     if (uploadError) {
       console.error("portfolio upload action error:", uploadError);
-      redirect(getRedirectUrl(filter, encodeURIComponent(uploadError.message)));
+      redirect(getRedirectUrl(locale, filter, encodeURIComponent(uploadError.message)));
     }
 
     const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(uploadData.path);
@@ -85,15 +89,15 @@ export async function uploadPortfolioAction(formData: FormData) {
 
     if (insertError) {
       await supabase.storage.from(BUCKET).remove([uploadData.path]);
-      redirect(getRedirectUrl(filter, encodeURIComponent(insertError.message)));
+      redirect(getRedirectUrl(locale, filter, encodeURIComponent(insertError.message)));
     }
 
-    revalidatePath("/admin/portfolio");
+    revalidatePath(`/${locale}/admin/portfolio`);
     revalidatePath("/");
-    redirect(getRedirectUrl(filter));
+    redirect(getRedirectUrl(locale, filter));
   } catch (err) {
     if (isRedirectError(err)) throw err;
     console.error("portfolio upload action error:", err);
-    redirect(getRedirectUrl(filter, "failed"));
+    redirect(getRedirectUrl(locale, filter, "failed"));
   }
 }

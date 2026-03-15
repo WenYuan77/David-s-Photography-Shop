@@ -1,16 +1,22 @@
+import { getTranslations } from "next-intl/server";
+
 export default async function AdminLoginPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ error?: string }>;
 }) {
+  const { locale } = await params;
   const { error } = await searchParams;
+  const t = await getTranslations("admin.login");
   const errorMessage =
     error === "required"
-      ? "Password required"
+      ? t("errorRequired")
       : error === "invalid"
-        ? "Invalid password"
+        ? t("errorInvalid")
         : error === "config"
-          ? "Server not configured"
+          ? t("errorConfig")
           : null;
 
   return (
@@ -20,13 +26,14 @@ export default async function AdminLoginPage({
         action="/api/auth/login-form"
         className="w-full max-w-sm p-8 border border-[var(--border)] bg-[#0d0d0d]"
       >
+        <input type="hidden" name="locale" value={locale} />
         <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[var(--gold)] tracking-[0.2em] uppercase mb-6 text-center">
-          Admin Login
+          {t("title")}
         </h1>
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder={t("passwordPlaceholder")}
           autoComplete="current-password"
           required
           autoFocus
@@ -39,7 +46,7 @@ export default async function AdminLoginPage({
           type="submit"
           className="w-full py-3 border border-[var(--gold)] text-[var(--gold)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--gold)] hover:text-[var(--background)] transition-all cursor-pointer"
         >
-          Sign in
+          {t("signIn")}
         </button>
       </form>
     </div>

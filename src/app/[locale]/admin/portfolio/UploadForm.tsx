@@ -1,21 +1,35 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { toCategoryKey } from "@/lib/category-i18n";
 import { uploadPortfolioAction } from "./actions";
 
 type Category = { id: string; label: string };
 
 export default function UploadForm({
+  locale,
   categories,
   activeFilter,
   defaultCategoryId,
 }: {
+  locale: string;
   categories: Category[];
   activeFilter: string;
   defaultCategoryId: string;
 }) {
+  const t = useTranslations("admin.portfolio");
+  const catT = useTranslations("categories");
+  const categoryLabel = (id: string, fallback: string) => {
+    const key = toCategoryKey(id);
+    const translated = catT(key);
+    return translated && translated !== key ? translated : fallback;
+  };
   return (
     <form
       action={uploadPortfolioAction}
       className="flex flex-col sm:flex-row gap-4 items-start flex-wrap"
     >
+      <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="filter" value={activeFilter} />
       <input
         type="file"
@@ -32,21 +46,21 @@ export default function UploadForm({
       >
         {categories.map((c) => (
           <option key={c.id} value={c.id}>
-            {c.label}
+            {categoryLabel(c.id, c.label)}
           </option>
         ))}
       </select>
       <input
         type="text"
         name="alt"
-        placeholder="Alt text (optional)"
+        placeholder={t("altPlaceholder")}
         className="flex-1 min-w-0 px-4 py-2 bg-transparent border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)]"
       />
       <button
         type="submit"
         className="shrink-0 py-2 px-6 border border-[var(--gold)] text-[var(--gold)] text-sm font-medium tracking-wider uppercase cursor-pointer hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors"
       >
-        Upload
+        {t("upload")}
       </button>
     </form>
   );

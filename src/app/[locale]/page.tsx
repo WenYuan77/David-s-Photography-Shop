@@ -8,30 +8,40 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { getPortfolioData } from "@/lib/portfolio-data";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export default async function Home() {
-  const [{ categories, images }, siteSettings] = await Promise.all([
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const [{ categories, images }, siteSettings, videoT] = await Promise.all([
     getPortfolioData(),
     getSiteSettings(),
+    getTranslations("video"),
   ]);
+
   return (
     <>
       <Header />
       <main>
-        <Hero heroImageUrl={siteSettings.hero_image_url || null} />
+        <Hero />
         <About />
         <VideoSection
           url={siteSettings.intro_video_url}
-          title="Our Studio"
-          subtitle="Video"
+          title={videoT("ourStudio")}
+          subtitle={videoT("videoLabel")}
           sectionId="intro-video"
           autoplay={siteSettings.intro_video_autoplay}
         />
         <Portfolio categories={categories} images={images} />
         <VideoSection
           url={siteSettings.proposal_video_url}
-          title="Featured Work"
-          subtitle="Proposal Reel"
+          title={videoT("featuredWork")}
+          subtitle={videoT("proposalReel")}
           sectionId="proposal-video"
           dark
           autoplay={siteSettings.proposal_video_autoplay}

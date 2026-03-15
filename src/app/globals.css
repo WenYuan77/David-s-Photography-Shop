@@ -38,6 +38,14 @@ body {
   font-family: var(--font-cormorant), Georgia, serif;
 }
 
+html[lang="zh"] body {
+  font-family: var(--font-cjk), "Noto Sans SC", sans-serif;
+}
+
+html[lang="th"] body {
+  font-family: var(--font-thai), "Noto Sans Thai", sans-serif;
+}
+
 /* Elegant selection */
 ::selection {
   background: var(--gold);

@@ -7,14 +7,17 @@ export const dynamic = "force-dynamic";
 const normalizedCat = (s: string) => (s || "").trim().toLowerCase();
 
 export default async function AdminPortfolioPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ filter?: string; error?: string }>;
 }) {
+  const { locale } = await params;
   const { categories, images } = await getPortfolioData();
   const categoriesWithoutAll = categories.filter((c) => c.id !== "All");
-  const params = await searchParams;
-  const { filter: filterParam, error: formError } = params;
+  const search = await searchParams;
+  const { filter: filterParam, error: formError } = search;
   const validIds = new Set(["All", ...categoriesWithoutAll.map((c) => c.id)]);
   const activeFilter =
     filterParam && validIds.has(filterParam) ? filterParam : "All";
@@ -48,6 +51,7 @@ export default async function AdminPortfolioPage({
         }))}
         uploadForm={
           <UploadForm
+            locale={locale}
             categories={categoriesWithoutAll}
             activeFilter={activeFilter}
             defaultCategoryId={categoriesWithoutAll[0]?.id ?? ""}

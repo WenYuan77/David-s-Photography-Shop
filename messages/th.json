@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "about": "เกี่ยวกับเรา",
+    "portfolio": "ผลงาน",
+    "services": "บริการ",
+    "contact": "ติดต่อ"
+  },
+  "brand": "Final Stage",
+  "hero": {
+    "badge": "ถ่ายภาพมืออาชีพ",
+    "tagline": "ที่ซึ่งช่วงเวลากลายเป็นผลงานชิ้นเอก",
+    "cta": "จองเซสชัน"
+  },
+  "about": {
+    "heading": "เกี่ยวกับเรา",
+    "title": "จับช่วงท้ายของ",
+    "titleMuted": "เรื่องราวของคุณ",
+    "p1": "Final Stage เป็นสตูดิโอถ่ายภาพบูติกที่ทุ่มเทในการสร้างภาพที่เหนือกาลเวลา เรามีประสบการณ์หลายปีและใส่ใจในรายละเอียด เราถนัดงานแต่งงาน หมั้น ครอบครัว ภาพบุคคล และอีเวนต์",
+    "p2": "ทุกเฟรมที่เราถ่ายทำด้วยเจตนา—แสง เงา และอารมณ์มาบรรจบกันเพื่อเล่าเรื่องราวเฉพาะของคุณ เราเชื่อว่าการถ่ายภาพไม่ใช่แค่การบันทึก แต่คือศิลปะในการเก็บรักษาช่วงเวลาที่กำหนดตัวคุณ"
+  },
+  "video": {
+    "ourStudio": "สตูดิโอของเรา",
+    "videoLabel": "วิดีโอ",
+    "featuredWork": "ผลงานเด่น",
+    "proposalReel": "คลิปขอแต่ง"
+  },
+  "portfolio": {
+    "label": "ผลงาน",
+    "title": "ผลงานของเรา",
+    "filterAria": "กรองผลงาน",
+    "emptyAll": "ยังไม่มีรูปภาพ กำหนดค่า Supabase และรัน migration หรือเพิ่มรูปผ่านแอดมิน",
+    "emptyCategory": "ไม่มีรูปใน {category}",
+    "showMore": "แสดงเพิ่ม",
+    "showLess": "แสดงน้อยลง"
+  },
+  "categories": {
+    "All": "ทั้งหมด",
+    "Wedding": "งานแต่งงาน",
+    "Engagement": "งานหมั้น",
+    "Family-Children": "ครอบครัวและเด็ก",
+    "Portrait": "ภาพบุคคล",
+    "Pets": "สัตว์เลี้ยง",
+    "Automotive": "รถยนต์",
+    "Events": "อีเวนต์"
+  },
+  "services": {
+    "label": "บริการ",
+    "title": "สิ่งที่เรานำเสนอ",
+    "wedding": {
+      "title": "งานแต่งงาน",
+      "description": "โรแมนติก แนทูรัล และเหนือกาลเวลา—เราเก็บความหมายของวันสำคัญด้วยสายตาของบรรณาธิการภาพ"
+    },
+    "engagement": {
+      "title": "งานหมั้น",
+      "description": "เซสชันก่อนแต่งและคู่รักที่เฉลิมฉลองเรื่องรักของคุณในบรรยากาศธรรมชาติที่สวยงาม"
+    },
+    "familyChildren": {
+      "title": "ครอบครัวและเด็ก",
+      "description": "เก็บความสุขของครอบครัว—วันเกิด เหตุการณ์สำคัญ และช่วงเวลาประจำวัน ด้วยความอบอุ่นและความจริงใจ"
+    },
+    "portrait": {
+      "title": "ภาพบุคคล",
+      "description": "ภาพบุคคลเดี่ยวและกลุ่มที่เผยบุคลิก—จากภาพเฮดช็อตมืออาชีพถึงไลฟ์สไตล์"
+    },
+    "pets": {
+      "title": "สัตว์เลี้ยง",
+      "description": "สมาชิกมีขนในครอบครัวสมควรได้ภาพสวย—เราเก็บบุคลิกและเสน่ห์เฉพาะตัวของพวกเขา"
+    },
+    "automotive": {
+      "title": "รถยนต์",
+      "description": "โชว์รถด้วยภาพถ่ายรถยนต์ที่โดดเด่น—รายละเอียด การเคลื่อนไหว และความสง่างาม"
+    },
+    "events": {
+      "title": "อีเวนต์",
+      "description": "งานเฉลิมฉลอง พิธีกรรม และโอกาสพิเศษ—บันทึกอย่างแม่นยำและมีศิลปะ"
+    }
+  },
+  "contact": {
+    "label": "ติดต่อ",
+    "title": "มาสร้างสรรค์ด้วยกัน",
+    "description": "พร้อมบันทึกเรื่องราวของคุณแล้วหรือยัง? ติดต่อเพื่อนัดปรึกษาหรือพูดคุยโปรเจกต์",
+    "cta": "จองเซสชัน"
+  },
+  "footer": {
+    "copyright": "© {year} Final Stage สงวนลิขสิทธิ์",
+    "siteBy": "เว็บไซต์โดย Wen Yuan",
+    "admin": "แอดมิน"
+  },
+  "admin": {
+    "nav": {
+      "admin": "แอดมิน",
+      "dashboard": "แดชบอร์ด",
+      "viewSite": "ดูเว็บไซต์",
+      "logout": "ออกจากระบบ"
+    },
+    "dashboard": {
+      "title": "แดชบอร์ด",
+      "siteSettings": "ตั้งค่าเว็บ",
+      "siteSettingsDesc": "เบอร์โทร อีเมล และข้อมูล SEO",
+      "categories": "หมวดหมู่",
+      "categoriesCount": "{count} หมวดหมู่ผลงาน",
+      "portfolio": "ผลงาน",
+      "portfolioCount": "{count} รูป",
+      "edit": "แก้ไข",
+      "manage": "จัดการ"
+    },
+    "login": {
+      "title": "เข้าสู่ระบบแอดมิน",
+      "passwordPlaceholder": "รหัสผ่าน",
+      "signIn": "เข้าสู่ระบบ",
+      "errorRequired": "กรุณาใส่รหัสผ่าน",
+      "errorInvalid": "รหัสผ่านไม่ถูกต้อง",
+      "errorConfig": "เซิร์ฟเวอร์ยังไม่ได้ตั้งค่า"
+    },
+    "settings": {
+      "title": "ตั้งค่าเว็บ",
+      "heroImage": "รูป Hero",
+      "heroImageDesc": "รูปพื้นหลังหลักหน้าแรก สูงสุด 10MB รองรับ JPEG, PNG, WebP, GIF",
+      "download": "ดาวน์โหลด",
+      "upload": "อัปโหลด",
+      "phone": "โทรศัพท์",
+      "email": "อีเมล",
+      "seoTitle": "หัวข้อ SEO",
+      "seoDescription": "คำอธิบาย SEO",
+      "introVideoAutoplay": "วิดีโอแนะนำเล่นอัตโนมัติ",
+      "save": "บันทึก",
+      "saving": "กำลังบันทึก...",
+      "heroErrorNoFile": "กรุณาเลือกไฟล์",
+      "heroErrorInvalidType": "ประเภทไฟล์ไม่ถูกต้อง ใช้ JPEG, PNG, WebP หรือ GIF",
+      "heroErrorTooLarge": "ไฟล์ใหญ่เกิน สูงสุด 10MB",
+      "heroErrorUploadFailed": "อัปโหลดไม่สำเร็จ",
+      "heroErrorConfig": "ยังไม่ได้ตั้งค่า Supabase",
+      "saveFailed": "บันทึกไม่สำเร็จ: {error}",
+      "saveSuccess": "บันทึกการตั้งค่าเรียบร้อยแล้ว",
+      "seoKeywords": "คำค้น SEO (คั่นด้วยจุลภาค)",
+      "seoKeywordsPlaceholder": "ถ่ายภาพ, งานแต่ง, ภาพบุคคล",
+      "introVideoUrl": "ลิงก์วิดีโอแนะนำ (Vimeo)",
+      "proposalVideoUrl": "ลิงก์วิดีโอขอแต่ง/ไฮไลต์ (Vimeo)",
+      "vimeoHint": "วางลิงก์แชร์ Vimeo ว่างไว้จะไม่แสดงส่วนนี้"
+    },
+    "categories": {
+      "title": "หมวดหมู่",
+      "categoryNamePlaceholder": "ชื่อหมวดหมู่",
+      "add": "เพิ่ม",
+      "adding": "กำลังเพิ่ม...",
+      "edit": "แก้ไข",
+      "save": "บันทึก",
+      "cancel": "ยกเลิก",
+      "delete": "ลบ",
+      "deleteConfirm": "ลบ \"{label}\"?",
+      "deleteWarning": "ต้องลบรูปในหมวดนี้ก่อน",
+      "confirmDelete": "ยืนยันการลบ"
+    },
+    "portfolio": {
+      "title": "ผลงาน",
+      "uploadImage": "อัปโหลดรูป",
+      "uploadImageHint": "สูงสุด 10MB รองรับ JPEG, PNG, WebP, GIF",
+      "filter": "กรอง",
+      "all": "ทั้งหมด",
+      "download": "ดาวน์โหลด",
+      "delete": "ลบ",
+      "altPlaceholder": "ข้อความแทนรูป (ไม่บังคับ)",
+      "upload": "อัปโหลด",
+      "noAlt": "(ไม่มีข้อความแทน)",
+      "errorUnauthorized": "กรุณาเข้าสู่ระบบใหม่",
+      "errorNoFile": "กรุณาเลือกไฟล์ที่จะอัปโหลด",
+      "errorNoCategory": "กรุณาเลือกหมวดหมู่",
+      "errorInvalidType": "ประเภทไฟล์ไม่ถูกต้อง ใช้ JPEG, PNG, WebP หรือ GIF",
+      "errorTooLarge": "ไฟล์ใหญ่เกิน สูงสุด 10MB",
+      "errorFailed": "อัปโหลดไม่สำเร็จ กรุณาลองใหม่",
+      "errorInvalidId": "ID รูปไม่ถูกต้อง",
+      "errorNotFound": "ไม่พบรูป",
+      "errorDeleteFailed": "ลบรูปไม่สำเร็จ"
+    },
+    "confirmDelete": {
+      "title": "ยืนยันการลบ",
+      "message": "แน่ใจหรือไม่ว่าต้องการลบรูปนี้?",
+      "confirm": "ยืนยันการลบ",
+      "cancel": "ยกเลิก",
+      "backToPortfolio": "กลับไปผลงาน",
+      "missingId": "ไม่มี ID รูป"
+    }
+  }
+}

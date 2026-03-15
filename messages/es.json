@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "about": "Nosotros",
+    "portfolio": "Portafolio",
+    "services": "Servicios",
+    "contact": "Contacto"
+  },
+  "brand": "Final Stage",
+  "hero": {
+    "badge": "Fotografía profesional",
+    "tagline": "Donde los momentos se convierten en obras maestras",
+    "cta": "Reservar sesión"
+  },
+  "about": {
+    "heading": "Sobre nosotros",
+    "title": "Capturando la etapa final",
+    "titleMuted": "de tu historia",
+    "p1": "Final Stage es un estudio de fotografía boutique dedicado a crear imágenes atemporales que trascienden lo ordinario. Con años de experiencia y una atención inquebrantable al detalle, nos especializamos en bodas, compromisos, familia, retratos y eventos.",
+    "p2": "Cada encuadre que capturamos está elaborado con intención—luz, sombra y emoción convergen para contar tu narrativa única. Creemos que la fotografía no es solo documentación, sino el arte de preservar los momentos que te definen."
+  },
+  "video": {
+    "ourStudio": "Nuestro estudio",
+    "videoLabel": "Vídeo",
+    "featuredWork": "Trabajos destacados",
+    "proposalReel": "Reel de propuesta"
+  },
+  "portfolio": {
+    "label": "Portafolio",
+    "title": "Nuestro trabajo",
+    "filterAria": "Filtrar portafolio",
+    "emptyAll": "Aún no hay imágenes. Configura Supabase y ejecuta la migración, o añade imágenes desde el panel de administración.",
+    "emptyCategory": "No hay imágenes en {category}.",
+    "showMore": "Ver más",
+    "showLess": "Ver menos"
+  },
+  "categories": {
+    "All": "Todos",
+    "Wedding": "Bodas",
+    "Engagement": "Compromisos",
+    "Family-Children": "Familia e hijos",
+    "Portrait": "Retrato",
+    "Pets": "Mascotas",
+    "Automotive": "Automotor",
+    "Events": "Eventos"
+  },
+  "services": {
+    "label": "Servicios",
+    "title": "Qué ofrecemos",
+    "wedding": {
+      "title": "Bodas",
+      "description": "Romántico, espontáneo y atemporal—capturamos la esencia de tu día especial con mirada editorial."
+    },
+    "engagement": {
+      "title": "Compromisos",
+      "description": "Sesiones preboda y de pareja que celebran tu historia de amor en entornos naturales impresionantes."
+    },
+    "familyChildren": {
+      "title": "Familia e hijos",
+      "description": "Atesora la alegría familiar—cumpleaños, hitos y momentos cotidianos capturados con calidez y autenticidad."
+    },
+    "portrait": {
+      "title": "Retrato",
+      "description": "Retratos individuales y de grupo que revelan personalidad—desde fotos profesionales hasta sesiones de estilo de vida."
+    },
+    "pets": {
+      "title": "Mascotas",
+      "description": "Los peludos de la familia merecen retratos bonitos—capturamos su personalidad y encanto únicos."
+    },
+    "automotive": {
+      "title": "Automotor",
+      "description": "Muestra tu vehículo con fotografía automotriz impactante—detalle, movimiento y elegancia."
+    },
+    "events": {
+      "title": "Eventos",
+      "description": "Celebraciones, ceremonias y ocasiones especiales—documentadas con precisión y estilo artístico."
+    }
+  },
+  "contact": {
+    "label": "Contacto",
+    "title": "Creemos juntos",
+    "description": "¿Listo para capturar tu historia? Contáctanos para agendar una consulta o hablar de tu proyecto.",
+    "cta": "Reservar sesión"
+  },
+  "footer": {
+    "copyright": "© {year} Final Stage. Todos los derechos reservados.",
+    "siteBy": "Sitio por Wen Yuan",
+    "admin": "Admin"
+  },
+  "admin": {
+    "nav": {
+      "admin": "Admin",
+      "dashboard": "Panel",
+      "viewSite": "Ver sitio",
+      "logout": "Cerrar sesión"
+    },
+    "dashboard": {
+      "title": "Panel",
+      "siteSettings": "Ajustes del sitio",
+      "siteSettingsDesc": "Teléfono, email y metadatos SEO.",
+      "categories": "Categorías",
+      "categoriesCount": "{count} categorías de portafolio",
+      "portfolio": "Portafolio",
+      "portfolioCount": "{count} imágenes",
+      "edit": "Editar",
+      "manage": "Gestionar"
+    },
+    "login": {
+      "title": "Acceso de administrador",
+      "passwordPlaceholder": "Contraseña",
+      "signIn": "Entrar",
+      "errorRequired": "Contraseña requerida",
+      "errorInvalid": "Contraseña incorrecta",
+      "errorConfig": "Servidor no configurado"
+    },
+    "settings": {
+      "title": "Ajustes del sitio",
+      "heroImage": "Imagen principal",
+      "heroImageDesc": "Imagen de fondo de la página de inicio. Máx. 10MB. JPEG, PNG, WebP, GIF.",
+      "download": "Descargar",
+      "upload": "Subir",
+      "phone": "Teléfono",
+      "email": "Email",
+      "seoTitle": "Título SEO",
+      "seoDescription": "Descripción SEO",
+      "introVideoAutoplay": "Reproducción automática del vídeo de presentación",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "heroErrorNoFile": "Selecciona un archivo.",
+      "heroErrorInvalidType": "Tipo de archivo no válido. Usa JPEG, PNG, WebP o GIF.",
+      "heroErrorTooLarge": "Archivo demasiado grande. Máx. 10MB.",
+      "heroErrorUploadFailed": "Error al subir.",
+      "heroErrorConfig": "Supabase no configurado.",
+      "saveFailed": "Error al guardar: {error}",
+      "saveSuccess": "Ajustes guardados correctamente.",
+      "seoKeywords": "Palabras clave SEO (separadas por comas)",
+      "seoKeywordsPlaceholder": "fotografía, boda, retrato",
+      "introVideoUrl": "URL del vídeo de presentación (Vimeo)",
+      "proposalVideoUrl": "URL del vídeo de propuesta / destacado (Vimeo)",
+      "vimeoHint": "Pega el enlace de compartir de Vimeo. Déjalo vacío para ocultar la sección."
+    },
+    "categories": {
+      "title": "Categorías",
+      "categoryNamePlaceholder": "Nombre de la categoría",
+      "add": "Añadir",
+      "adding": "Añadiendo...",
+      "edit": "Editar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "deleteConfirm": "¿Eliminar \"{label}\"?",
+      "deleteWarning": "Primero elimina las imágenes de esta categoría.",
+      "confirmDelete": "Confirmar eliminación"
+    },
+    "portfolio": {
+      "title": "Portafolio",
+      "uploadImage": "Subir imagen",
+      "uploadImageHint": "Máx. 10MB. JPEG, PNG, WebP, GIF.",
+      "filter": "Filtrar",
+      "all": "Todos",
+      "download": "Descargar",
+      "delete": "Eliminar",
+      "altPlaceholder": "Texto alternativo (opcional)",
+      "upload": "Subir",
+      "noAlt": "(sin alt)",
+      "errorUnauthorized": "Inicia sesión de nuevo.",
+      "errorNoFile": "Selecciona un archivo para subir.",
+      "errorNoCategory": "Selecciona una categoría.",
+      "errorInvalidType": "Tipo de archivo no válido. Usa JPEG, PNG, WebP o GIF.",
+      "errorTooLarge": "Archivo demasiado grande. Máx. 10MB.",
+      "errorFailed": "Error al subir. Inténtalo de nuevo.",
+      "errorInvalidId": "ID de imagen no válido.",
+      "errorNotFound": "Imagen no encontrada.",
+      "errorDeleteFailed": "Error al eliminar la imagen."
+    },
+    "confirmDelete": {
+      "title": "Confirmar eliminación",
+      "message": "¿Seguro que quieres eliminar esta imagen?",
+      "confirm": "Confirmar eliminación",
+      "cancel": "Cancelar",
+      "backToPortfolio": "Volver al portafolio",
+      "missingId": "Falta el ID de la imagen."
+    }
+  }
+}

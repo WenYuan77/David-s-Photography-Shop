@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "about": "关于",
+    "portfolio": "作品集",
+    "services": "服务",
+    "contact": "联系"
+  },
+  "brand": "Final Stage",
+  "hero": {
+    "badge": "专业摄影",
+    "tagline": "让瞬间成为永恒",
+    "cta": "预约拍摄"
+  },
+  "about": {
+    "heading": "关于我们",
+    "title": "定格你故事的",
+    "titleMuted": "最终章",
+    "p1": "Final Stage 是一家精品摄影工作室，致力于创造超越平凡的永恒影像。凭借多年经验与对细节的执着，我们专注于婚礼、订婚、家庭、人像与活动拍摄。",
+    "p2": "我们用心雕琢每一帧——光线、阴影与情感交织，讲述你独一无二的故事。我们相信摄影不仅是记录，更是保存定义你的那些时刻的艺术。"
+  },
+  "video": {
+    "ourStudio": "我们的工作室",
+    "videoLabel": "视频",
+    "featuredWork": "精选作品",
+    "proposalReel": "求婚花絮"
+  },
+  "portfolio": {
+    "label": "作品集",
+    "title": "我们的作品",
+    "filterAria": "筛选作品集",
+    "emptyAll": "暂无图片。请配置 Supabase 并运行迁移，或通过管理后台添加图片。",
+    "emptyCategory": "{category} 中暂无图片。",
+    "showMore": "显示更多",
+    "showLess": "收起"
+  },
+  "categories": {
+    "All": "全部",
+    "Wedding": "婚礼",
+    "Engagement": "订婚",
+    "Family-Children": "家庭与儿童",
+    "Portrait": "人像",
+    "Pets": "宠物",
+    "Automotive": "汽车",
+    "Events": "活动"
+  },
+  "services": {
+    "label": "服务",
+    "title": "服务项目",
+    "wedding": {
+      "title": "婚礼",
+      "description": "浪漫、自然、永恒——我们以编辑级的眼光捕捉你特别之日的精髓。"
+    },
+    "engagement": {
+      "title": "订婚",
+      "description": "婚前与情侣拍摄，在绝美自然场景中庆祝你们的爱情故事。"
+    },
+    "familyChildren": {
+      "title": "家庭与儿童",
+      "description": "珍藏家庭欢乐——生日、成长里程碑与日常瞬间，以温暖与真实呈现。"
+    },
+    "portrait": {
+      "title": "人像",
+      "description": "个人与团体人像，展现个性——从职业形象照到生活风格拍摄。"
+    },
+    "pets": {
+      "title": "宠物",
+      "description": "毛孩子也值得精美肖像——我们捕捉它们独特的个性与魅力。"
+    },
+    "automotive": {
+      "title": "汽车",
+      "description": "以出色的汽车摄影展现爱车——细节、动感与优雅。"
+    },
+    "events": {
+      "title": "活动",
+      "description": "庆典、仪式与特别场合——以精准与艺术感记录。"
+    }
+  },
+  "contact": {
+    "label": "联系",
+    "title": "一起创作",
+    "description": "准备好记录你的故事了吗？欢迎预约咨询或洽谈拍摄项目。",
+    "cta": "预约拍摄"
+  },
+  "footer": {
+    "copyright": "© {year} Final Stage. 版权所有。",
+    "siteBy": "网站由 Wen Yuan 制作",
+    "admin": "管理"
+  },
+  "admin": {
+    "nav": {
+      "admin": "管理",
+      "dashboard": "仪表盘",
+      "viewSite": "查看站点",
+      "logout": "退出"
+    },
+    "dashboard": {
+      "title": "仪表盘",
+      "siteSettings": "站点设置",
+      "siteSettingsDesc": "电话、邮箱与 SEO 信息。",
+      "categories": "分类",
+      "categoriesCount": "{count} 个作品分类",
+      "portfolio": "作品集",
+      "portfolioCount": "{count} 张图片",
+      "edit": "编辑",
+      "manage": "管理"
+    },
+    "login": {
+      "title": "管理员登录",
+      "passwordPlaceholder": "密码",
+      "signIn": "登录",
+      "errorRequired": "请输入密码",
+      "errorInvalid": "密码错误",
+      "errorConfig": "服务器未配置"
+    },
+    "settings": {
+      "title": "站点设置",
+      "heroImage": "首图",
+      "heroImageDesc": "首页主图。最大 10MB，支持 JPEG、PNG、WebP、GIF。",
+      "download": "下载",
+      "upload": "上传",
+      "phone": "电话",
+      "email": "邮箱",
+      "seoTitle": "SEO 标题",
+      "seoDescription": "SEO 描述",
+      "introVideoAutoplay": "介绍视频自动播放",
+      "save": "保存",
+      "saving": "保存中...",
+      "heroErrorNoFile": "请选择文件。",
+      "heroErrorInvalidType": "无效文件类型，请使用 JPEG、PNG、WebP 或 GIF。",
+      "heroErrorTooLarge": "文件过大，最大 10MB。",
+      "heroErrorUploadFailed": "上传失败。",
+      "heroErrorConfig": "Supabase 未配置。",
+      "saveFailed": "保存失败：{error}",
+      "saveSuccess": "设置已保存。",
+      "seoKeywords": "SEO 关键词（逗号分隔）",
+      "seoKeywordsPlaceholder": "摄影, 婚礼, 人像",
+      "introVideoUrl": "介绍视频链接 (Vimeo)",
+      "proposalVideoUrl": "求婚/精选视频链接 (Vimeo)",
+      "vimeoHint": "粘贴 Vimeo 分享链接，留空则隐藏该区块。"
+    },
+    "categories": {
+      "title": "分类",
+      "categoryNamePlaceholder": "分类名称",
+      "add": "添加",
+      "adding": "添加中...",
+      "edit": "编辑",
+      "save": "保存",
+      "cancel": "取消",
+      "delete": "删除",
+      "deleteConfirm": "确定删除「{label}」？",
+      "deleteWarning": "请先移除此分类下的所有图片。",
+      "confirmDelete": "确认删除"
+    },
+    "portfolio": {
+      "title": "作品集",
+      "uploadImage": "上传图片",
+      "uploadImageHint": "最大 10MB，支持 JPEG、PNG、WebP、GIF。",
+      "filter": "筛选",
+      "all": "全部",
+      "download": "下载",
+      "delete": "删除",
+      "altPlaceholder": "替代文字（选填）",
+      "upload": "上传",
+      "noAlt": "（无替代文字）",
+      "errorUnauthorized": "请重新登录。",
+      "errorNoFile": "请选择要上传的文件。",
+      "errorNoCategory": "请选择分类。",
+      "errorInvalidType": "无效文件类型，请使用 JPEG、PNG、WebP 或 GIF。",
+      "errorTooLarge": "文件过大，最大 10MB。",
+      "errorFailed": "上传失败，请重试。",
+      "errorInvalidId": "无效的图片 ID。",
+      "errorNotFound": "未找到图片。",
+      "errorDeleteFailed": "删除失败。"
+    },
+    "confirmDelete": {
+      "title": "确认删除",
+      "message": "确定要删除这张图片吗？",
+      "confirm": "确认删除",
+      "cancel": "取消",
+      "backToPortfolio": "返回作品集",
+      "missingId": "缺少图片 ID。"
+    }
+  }
+}

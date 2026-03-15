@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const DEFAULT_HERO = "/portfolio_pictures/Wedding/W7.jpeg";
 
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export default function Hero({ heroImageUrl }: Props) {
+  const t = useTranslations();
   const src = heroImageUrl?.trim() || DEFAULT_HERO;
 
   return (
@@ -31,20 +33,20 @@ export default function Hero({ heroImageUrl }: Props) {
 
       <div className="relative z-20 mx-auto max-w-7xl px-6 text-center">
         <p className="font-[family-name:var(--font-playfair)] text-[var(--gold)] tracking-[0.4em] uppercase text-sm mb-4 animate-fade-in">
-          Professional Photography
+          {t("hero.badge")}
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight text-white mb-6 animate-fade-in-up">
-          Final Stage
+          {t("brand")}
         </h1>
         <div className="divider-gold w-32 mx-auto mb-8" />
         <p className="font-[family-name:var(--font-cormorant)] text-xl sm:text-2xl text-[var(--muted)] max-w-2xl mx-auto mb-12 font-light animate-fade-in-up animation-delay-200">
-          Where moments become masterpieces
+          {t("hero.tagline")}
         </p>
         <a
           href="#contact"
           className="inline-block px-10 py-4 border border-[var(--gold)] text-[var(--gold)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--gold)] hover:text-[var(--background)] transition-all duration-500 animate-fade-in-up animation-delay-300"
         >
-          Book a Session
+          {t("hero.cta")}
         </a>
       </div>
 

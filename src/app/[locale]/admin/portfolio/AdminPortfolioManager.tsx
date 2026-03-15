@@ -2,21 +2,23 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { toCategoryKey } from "@/lib/category-i18n";
 import DeletePortfolioLink from "./DeletePortfolioLink";
 
 type ImageItem = { id: string; category: string; src: string; alt: string };
 type Category = { id: string; label: string };
 
-const ERROR_MESSAGES: Record<string, string> = {
-  Unauthorized: "Please log in again.",
-  "no-file": "Please select a file to upload.",
-  "no-category": "Please select a category.",
-  "invalid-type": "Invalid file type. Use JPEG, PNG, WebP or GIF.",
-  "file-too-large": "File too large. Max 10MB.",
-  failed: "Upload failed. Please try again.",
-  "invalid-id": "Invalid image ID.",
-  "not-found": "Image not found.",
-  "delete-failed": "Failed to delete image.",
+const ERROR_KEYS: Record<string, string> = {
+  Unauthorized: "errorUnauthorized",
+  "no-file": "errorNoFile",
+  "no-category": "errorNoCategory",
+  "invalid-type": "errorInvalidType",
+  "file-too-large": "errorTooLarge",
+  failed: "errorFailed",
+  "invalid-id": "errorInvalidId",
+  "not-found": "errorNotFound",
+  "delete-failed": "errorDeleteFailed",
 };
 
 export default function AdminPortfolioManager({
@@ -34,43 +36,53 @@ export default function AdminPortfolioManager({
   totalImagesByCategory: { id: string; count: number }[];
   uploadForm: React.ReactNode;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("admin.portfolio");
+  const catT = useTranslations("categories");
+  const categoryLabel = (id: string, fallback: string) => {
+    const key = toCategoryKey(id);
+    const translated = catT(key);
+    return translated && translated !== key ? translated : fallback;
+  };
   const [images] = useState(initialImages);
   const [categories] = useState(initialCategories);
   const [counts] = useState(totalImagesByCategory);
 
   const totalCount = counts.reduce((s, x) => s + x.count, 0);
+  const adminPortfolio = `/${locale}/admin/portfolio`;
+  const formErrorMsg = formError ? (ERROR_KEYS[formError] ? t(ERROR_KEYS[formError]) : formError) : null;
 
   return (
     <>
       <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[var(--gold)] tracking-[0.2em] uppercase mb-8">
-        Portfolio
+        {t("title")}
       </h1>
 
       <section className="mb-12 p-6 border border-[var(--border)] bg-[#0d0d0d]">
-        <h2 className="text-lg text-white mb-4">Upload Image</h2>
+        <h2 className="text-lg text-white mb-4">{t("uploadImage")}</h2>
         {uploadForm}
         <p className="text-[var(--muted)] text-xs mt-2">
-          Max 10MB. JPEG, PNG, WebP, GIF.
+          {t("uploadImageHint")}
         </p>
       </section>
 
-      {formError && (
+      {formErrorMsg && (
         <p className="text-[var(--accent-red)] text-sm mb-4">
-          {ERROR_MESSAGES[formError] ?? formError}
+          {formErrorMsg}
         </p>
       )}
 
       <div className="mb-4 flex flex-wrap gap-2 items-center">
-        <span className="text-[var(--muted)] text-sm mr-2">Filter:</span>
+        <span className="text-[var(--muted)] text-sm mr-2">{t("filter")}:</span>
         <a
-          href="/admin/portfolio"
+          href={adminPortfolio}
           className={`px-4 py-2 text-sm border transition-colors cursor-pointer ${
             activeFilter === "All"
               ? "border-[var(--gold)] text-[var(--gold)] bg-[var(--gold)]/10"
               : "border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--gold)]"
           }`}
         >
-          All ({totalCount})
+          {t("all")} ({totalCount})
         </a>
         {categories.map((c) => {
           const count = counts.find((x) => x.id === c.id)?.count ?? 0;
@@ -78,14 +90,14 @@ export default function AdminPortfolioManager({
           return (
             <a
               key={c.id}
-              href={`/admin/portfolio?filter=${encodeURIComponent(c.id)}`}
+              href={`${adminPortfolio}?filter=${encodeURIComponent(c.id)}`}
               className={`px-4 py-2 text-sm border transition-colors cursor-pointer ${
                 isActive
                   ? "border-[var(--gold)] text-[var(--gold)] bg-[var(--gold)]/10"
                   : "border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--gold)]"
               }`}
             >
-              {c.label} ({count})
+              {categoryLabel(c.id, c.label)} ({count})
             </a>
           );
         })}
@@ -106,16 +118,16 @@ export default function AdminPortfolioManager({
               />
             </div>
             <div className="mt-2 text-[var(--muted)] text-xs truncate">
-              {img.alt || "(no alt)"}
+              {img.alt || t("noAlt")}
             </div>
-            <div className="mt-1 text-[var(--muted)] text-xs">{img.category}</div>
+            <div className="mt-1 text-[var(--muted)] text-xs">{categoryLabel(img.category, img.category)}</div>
 
             <div className="relative z-10 mt-2 flex gap-3 items-center">
               <a
                 href={`/api/portfolio/${encodeURIComponent(img.id)}/download`}
                 className="text-xs text-[var(--gold)] hover:underline cursor-pointer"
               >
-                Download
+                {t("download")}
               </a>
               <DeletePortfolioLink imageId={img.id} activeFilter={activeFilter} />
             </div>

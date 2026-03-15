@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { getAdminLocale } from "@/lib/admin-locale";
 
 const BUCKET = "portfolio";
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
@@ -15,19 +16,20 @@ function slugify(str: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  const formData = await request.formData();
+  const loc = getAdminLocale(request, formData.get("locale") as string | null);
   if (!(await isAdmin())) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    return NextResponse.redirect(new URL(`/${loc}/admin/login`, request.url));
   }
 
   try {
-    const formData = await request.formData();
     const file = formData.get("file") as File | null;
     const categoryId = String(formData.get("category_id") ?? "").trim();
     const alt = String(formData.get("alt") ?? "").trim();
     const filter = String(formData.get("filter") ?? "").trim();
     const keepFilter = filter && filter !== "All" ? `filter=${encodeURIComponent(filter)}` : "";
 
-    const baseRedirect = "/admin/portfolio" + (keepFilter ? `?${keepFilter}` : "");
+    const baseRedirect = `/${loc}/admin/portfolio` + (keepFilter ? `?${keepFilter}` : "");
 
     if (!file || file.size === 0) {
       return NextResponse.redirect(
@@ -92,11 +94,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    revalidatePath("/admin/portfolio");
+    revalidatePath(`/${loc}/admin/portfolio`);
     revalidatePath("/");
     return NextResponse.redirect(new URL(baseRedirect, request.url));
   } catch (err) {
     console.error("portfolio upload-form error:", err);
-    return NextResponse.redirect(new URL("/admin/portfolio?error=failed", request.url));
+    const fallbackLoc = getAdminLocale(request, null);
+    return NextResponse.redirect(new URL(`/${fallbackLoc}/admin/portfolio?error=failed`, request.url));
   }
 }

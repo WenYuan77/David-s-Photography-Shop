@@ -1,9 +1,16 @@
+import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { getLocale } from "next-intl/server";
+
 type Props = {
   phone: string;
   email: string;
 };
 
-export default function Footer({ phone, email }: Props) {
+export default async function Footer({ phone, email }: Props) {
+  const t = await getTranslations("footer");
+  const tRoot = await getTranslations();
+  const locale = await getLocale();
   const currentYear = new Date().getFullYear();
   const telHref = phone.replace(/\D/g, "");
 
@@ -11,12 +18,12 @@ export default function Footer({ phone, email }: Props) {
     <footer className="border-t border-[var(--border)] py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <a
-            href="#"
+          <Link
+            href={`/${locale}`}
             className="font-[family-name:var(--font-playfair)] text-lg font-semibold tracking-[0.2em] uppercase text-[var(--foreground)] hover:text-[var(--gold)] transition-colors"
           >
-            Final Stage
-          </a>
+            {tRoot("brand")}
+          </Link>
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-sm text-[var(--muted)]">
             <a
               href={telHref ? `tel:+${telHref}` : "#"}
@@ -34,12 +41,12 @@ export default function Footer({ phone, email }: Props) {
         </div>
         <div className="divider-gold mt-8 mb-8" />
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-sm text-[var(--muted)]">
-          <p>© {currentYear} Final Stage. All rights reserved.</p>
+          <p>{t("copyright", { year: currentYear })}</p>
           <span className="hidden sm:inline text-[var(--muted)]/50" aria-hidden>
             ·
           </span>
           <span className="inline-flex items-center gap-2">
-            <span className="text-[var(--muted)]/90">Site by Wen Yuan</span>
+            <span className="text-[var(--muted)]/90">{t("siteBy")}</span>
             <a
               href="https://www.linkedin.com/in/wenyuan77/"
               target="_blank"
@@ -79,9 +86,9 @@ export default function Footer({ phone, email }: Props) {
             ·
           </span>
           <a
-            href="/admin"
+            href={`/${locale}/admin`}
             className="inline-flex items-center gap-1.5 text-[var(--muted)]/80 hover:text-[var(--gold)] transition-colors duration-300 tracking-[0.1em]"
-            aria-label="Admin"
+            aria-label={t("admin")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +103,7 @@ export default function Footer({ phone, email }: Props) {
                 clipRule="evenodd"
               />
             </svg>
-            Admin
+            {t("admin")}
           </a>
         </div>
       </div>

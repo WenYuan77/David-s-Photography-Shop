@@ -10,23 +10,29 @@ function getBaseUrl(request: NextRequest): string {
   return `${proto}://${forwardedHost ?? host}`;
 }
 
+const LOCALES = ["en", "zh", "th", "es"];
+
 export async function POST(request: NextRequest) {
   const baseUrl = getBaseUrl(request);
   const formData = await request.formData();
   const password = formData.get("password");
+  const localeRaw = formData.get("locale");
+  const locale =
+    typeof localeRaw === "string" && LOCALES.includes(localeRaw) ? localeRaw : "en";
+
   if (!password || typeof password !== "string") {
-    return NextResponse.redirect(new URL("/admin/login?error=required", baseUrl));
+    return NextResponse.redirect(new URL(`/${locale}/admin/login?error=required`, baseUrl));
   }
 
   const adminPassword = process.env.ADMIN_PASSWORD?.trim();
   if (!adminPassword) {
-    return NextResponse.redirect(new URL("/admin/login?error=config", baseUrl));
+    return NextResponse.redirect(new URL(`/${locale}/admin/login?error=config`, baseUrl));
   }
   if (password.trim() !== adminPassword) {
-    return NextResponse.redirect(new URL("/admin/login?error=invalid", baseUrl));
+    return NextResponse.redirect(new URL(`/${locale}/admin/login?error=invalid`, baseUrl));
   }
 
-  const res = NextResponse.redirect(new URL("/admin", baseUrl));
+  const res = NextResponse.redirect(new URL(`/${locale}/admin`, baseUrl));
   res.cookies.set(ADMIN_COOKIE, "1", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

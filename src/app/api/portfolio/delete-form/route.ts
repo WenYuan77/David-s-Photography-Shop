@@ -2,16 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { getAdminLocale } from "@/lib/admin-locale";
 
 export async function POST(request: NextRequest) {
+  const formData = await request.formData();
+  const loc = getAdminLocale(request, formData.get("locale") as string | null);
   if (!(await isAdmin())) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    return NextResponse.redirect(new URL(`/${loc}/admin/login`, request.url));
   }
 
-  const formData = await request.formData();
   const id = String(formData.get("id") ?? "").trim();
   const filter = String(formData.get("filter") ?? "").trim();
-  const base = new URL("/admin/portfolio", request.url);
+  const base = new URL(`/${loc}/admin/portfolio`, request.url);
   if (filter && filter !== "All") {
     base.searchParams.set("filter", filter);
   }
@@ -60,7 +62,7 @@ export async function POST(request: NextRequest) {
       // Ignore storage deletion errors
     }
 
-    revalidatePath("/admin/portfolio");
+    revalidatePath(`/${loc}/admin/portfolio`);
     revalidatePath("/");
     return redirectWithFilter();
   } catch {

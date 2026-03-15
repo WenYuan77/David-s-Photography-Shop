@@ -14,6 +14,9 @@ export async function addCategoryAction(
   const label = String(formData.get("label") ?? "").trim();
   if (!label) return { error: "Label is required" };
 
+  const localeRaw = String(formData.get("locale") ?? "en").trim();
+  const locale = ["en", "zh", "th", "es"].includes(localeRaw) ? localeRaw : "en";
+
   const slug = label.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "");
   if (!slug) return { error: "Invalid category name" };
 
@@ -35,8 +38,8 @@ export async function addCategoryAction(
       if (error.code === "23505") return { error: "Category already exists" };
       return { error: error.message };
     }
-    revalidatePath("/admin");
-    revalidatePath("/admin/categories");
+    revalidatePath(`/${locale}/admin`);
+    revalidatePath(`/${locale}/admin/categories`);
     revalidatePath("/");
     return {};
   } catch (err) {

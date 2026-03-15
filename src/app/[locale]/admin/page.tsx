@@ -1,7 +1,14 @@
 import { getPortfolioData } from "@/lib/portfolio-data";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getTranslations } from "next-intl/server";
 
-export default async function AdminDashboardPage() {
+export default async function AdminDashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations("admin.dashboard");
   const [{ categories, images }, siteSettings] = await Promise.all([
     getPortfolioData(),
     getSiteSettings(),
@@ -12,55 +19,55 @@ export default async function AdminDashboardPage() {
   return (
     <div className="mx-auto max-w-7xl px-6 py-12">
       <h1 className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--gold)] tracking-[0.2em] uppercase mb-12">
-        Dashboard
+        {t("title")}
       </h1>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
           <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white mb-4 tracking-wide">
-            Site Settings
+            {t("siteSettings")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">
-            Phone, email, and SEO metadata.
+            {t("siteSettingsDesc")}
           </p>
           <p className="text-[var(--muted)] text-xs mb-4">
             {siteSettings.phone || "—"} / {siteSettings.email || "—"}
           </p>
           <a
-            href="/admin/settings"
+            href={`/${locale}/admin/settings`}
             className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors cursor-pointer"
           >
-            Edit
+            {t("edit")}
           </a>
         </section>
 
         <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
           <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white mb-4 tracking-wide">
-            Categories
+            {t("categories")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">
-            {categoriesWithoutAll.length} portfolio categories
+            {t("categoriesCount", { count: categoriesWithoutAll.length })}
           </p>
           <a
-            href="/admin/categories"
+            href={`/${locale}/admin/categories`}
             className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors cursor-pointer"
           >
-            Manage
+            {t("manage")}
           </a>
         </section>
 
         <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
           <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white mb-4 tracking-wide">
-            Portfolio
+            {t("portfolio")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">
-            {images.length} images
+            {t("portfolioCount", { count: images.length })}
           </p>
           <a
-            href="/admin/portfolio"
+            href={`/${locale}/admin/portfolio`}
             className="inline-block py-2 px-4 border border-[var(--gold)] text-[var(--gold)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors cursor-pointer"
           >
-            Manage
+            {t("manage")}
           </a>
         </section>
       </div>

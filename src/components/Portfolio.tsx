@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import type { PortfolioCategory, PortfolioImage } from "@/lib/portfolio-data";
+import { toCategoryKey } from "@/lib/category-i18n";
 
 const INITIAL_LIMIT = 20;
 
@@ -11,10 +13,17 @@ type Props = {
   images: PortfolioImage[];
 };
 
-export default function Portfolio({ categories, images: portfolioImages }: Props) {
+export default async function Portfolio({ categories, images: portfolioImages }: Props) {
+  const t = await getTranslations("portfolio");
+  const catT = await getTranslations("categories");
   const imagesByCategory = categories.filter((c) => c.id !== "All");
 
-  const categoryLabel = (id: string) => categories.find((c) => c.id === id)?.label ?? id;
+  const categoryLabel = (id: string) => {
+    const key = toCategoryKey(id);
+    const translated = catT(key);
+    if (translated && translated !== key) return translated;
+    return categories.find((c) => c.id === id)?.label ?? id;
+  };
 
   const getImagesForCategory = (catId: string) =>
     catId === "All"
@@ -45,14 +54,14 @@ export default function Portfolio({ categories, images: portfolioImages }: Props
       <style dangerouslySetInnerHTML={{ __html: dynamicCss }} />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">Portfolio</p>
+          <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">{t("label")}</p>
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white">
-            Our Work
+            {t("title")}
           </h2>
           <div className="divider-gold w-24 mx-auto mt-6 mb-12" />
           <nav
             className="flex flex-wrap justify-center gap-3 md:gap-4"
-            aria-label="Filter portfolio"
+            aria-label={t("filterAria")}
           >
             {categories.map((cat) => (
               <a
@@ -61,7 +70,7 @@ export default function Portfolio({ categories, images: portfolioImages }: Props
                 className="portfolio-filter-link px-4 py-2 text-xs md:text-sm font-medium tracking-[0.12em] md:tracking-[0.15em] uppercase transition-all duration-300 whitespace-nowrap border-0 bg-transparent block no-underline text-[var(--muted)] hover:text-[var(--gold)] data-[active]:text-[var(--gold)]"
                 data-category={cat.id}
               >
-                {cat.label}
+                {categoryLabel(cat.id)}
               </a>
             ))}
           </nav>
@@ -82,7 +91,9 @@ export default function Portfolio({ categories, images: portfolioImages }: Props
               panelId="all"
               images={getImagesForCategory("All")}
               categoryLabel={categoryLabel}
-              emptyMessage="No images yet. Configure Supabase and run the migration, or add images via the admin panel."
+              emptyMessage={t("emptyAll")}
+              showMore={t("showMore")}
+              showLess={t("showLess")}
             />
           </div>
 
@@ -97,7 +108,9 @@ export default function Portfolio({ categories, images: portfolioImages }: Props
                 panelId={cat.id}
                 images={getImagesForCategory(cat.id)}
                 categoryLabel={categoryLabel}
-                emptyMessage={`No images in ${cat.label}.`}
+                emptyMessage={t("emptyCategory", { category: categoryLabel(cat.id) })}
+                showMore={t("showMore")}
+                showLess={t("showLess")}
               />
             </div>
           ))}
@@ -112,11 +125,15 @@ function PortfolioPanel({
   images,
   categoryLabel,
   emptyMessage,
+  showMore,
+  showLess,
 }: {
   panelId: string;
   images: PortfolioImage[];
   categoryLabel: (id: string) => string;
   emptyMessage: string;
+  showMore: string;
+  showLess: string;
 }) {
   return (
     <>
@@ -142,8 +159,8 @@ function PortfolioPanel({
             ))}
           </div>
           <label htmlFor={`portfolio-show-more-${panelId}`} className={`portfolio-more-label ${buttonClass}`}>
-            <span className="portfolio-text-more">Show More</span>
-            <span className="portfolio-text-less">Show Less</span>
+            <span className="portfolio-text-more">{showMore}</span>
+            <span className="portfolio-text-less">{showLess}</span>
           </label>
         </>
       )}

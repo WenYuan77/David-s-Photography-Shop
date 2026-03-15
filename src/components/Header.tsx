@@ -1,16 +1,22 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-
-const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Portfolio", href: "#portfolio-section" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
-];
+import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
+import Link from "next/link";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
+  const t = useTranslations();
+  const locale = useLocale();
   const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const navItems = [
+    { key: "about", href: "#about" },
+    { key: "portfolio", href: "#portfolio-section" },
+    { key: "services", href: "#services" },
+    { key: "contact", href: "#contact" },
+  ];
 
   useEffect(() => {
     const uncheckOnDesktop = () => {
@@ -26,24 +32,25 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)]/90 backdrop-blur-md border-b border-[var(--border)]/50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-        <a
-          href="#"
+        <Link
+          href={`/${locale}`}
           className="font-[family-name:var(--font-playfair)] text-xl font-semibold tracking-[0.2em] uppercase text-[var(--foreground)] hover:text-[var(--gold)] transition-colors duration-300"
         >
-          Final Stage
-        </a>
+          {t("brand")}
+        </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-6 lg:gap-10">
           {navItems.map((item) => (
             <a
-              key={item.label}
+              key={item.key}
               href={item.href}
               className="text-sm font-medium tracking-[0.15em] uppercase text-[var(--muted)] hover:text-[var(--gold)] transition-colors duration-300"
             >
-              {item.label}
+              {t(`nav.${item.key}`)}
             </a>
           ))}
+          <LanguageSwitcher />
         </div>
 
         {/* Mobile menu button - burger only. Checkbox inside label for reliable tap. Shown on small screens only (md:hidden). */}
@@ -60,13 +67,16 @@ export default function Header() {
         <div className="flex flex-col gap-4">
           {navItems.map((item) => (
             <a
-              key={item.label}
+              key={item.key}
               href={item.href}
               className="text-sm font-medium tracking-[0.15em] uppercase text-[var(--muted)] hover:text-[var(--gold)] transition-colors"
             >
-              {item.label}
+              {t(`nav.${item.key}`)}
             </a>
           ))}
+          <div className="pt-2 border-t border-[var(--border)]/50">
+            <LanguageSwitcher />
+          </div>
         </div>
       </div>
     </header>

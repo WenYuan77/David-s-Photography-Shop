@@ -2,6 +2,7 @@
 
 import { useActionState, useState, useEffect } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { saveSiteSettings, uploadHeroImageAction } from "./actions";
 import type { SiteSettingsFull } from "@/lib/site-settings";
 
@@ -12,6 +13,7 @@ export default function AdminSettingsForm({
   initialData: SiteSettingsFull;
   heroError?: string | null;
 }) {
+  const t = useTranslations("admin.settings");
   const [state, formAction, isPending] = useActionState(saveSiteSettings, null);
   const heroUrl = initialData.hero_image_url?.trim() || null;
 
@@ -42,9 +44,9 @@ export default function AdminSettingsForm({
     <div className="space-y-8">
       {/* Hero Image */}
       <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
-        <h2 className="text-lg text-white mb-4">Hero Image</h2>
+        <h2 className="text-lg text-white mb-4">{t("heroImage")}</h2>
         <p className="text-sm text-[var(--muted)] mb-4">
-          The main background image on the homepage. Max 10MB. JPEG, PNG, WebP, GIF.
+          {t("heroImageDesc")}
         </p>
         {heroUrl && (
           <div className="mb-4">
@@ -61,7 +63,7 @@ export default function AdminSettingsForm({
               href="/api/site/hero/download"
               className="inline-block mt-2 text-xs text-[var(--gold)] hover:underline cursor-pointer"
             >
-              Download
+              {t("download")}
             </a>
           </div>
         )}
@@ -80,7 +82,7 @@ export default function AdminSettingsForm({
             type="submit"
             className="py-2 px-6 border border-[var(--gold)] text-[var(--gold)] text-sm font-medium tracking-wider uppercase cursor-pointer hover:bg-[var(--gold)] hover:text-[var(--background)] transition-colors"
           >
-            Upload
+            {t("upload")}
           </button>
         </form>
       </section>
@@ -93,7 +95,7 @@ export default function AdminSettingsForm({
     >
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          Phone
+          {t("phone")}
         </label>
         <input
           type="tel"
@@ -104,7 +106,7 @@ export default function AdminSettingsForm({
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          Email
+          {t("email")}
         </label>
         <input
           type="email"
@@ -115,7 +117,7 @@ export default function AdminSettingsForm({
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          SEO Title
+          {t("seoTitle")}
         </label>
         <input
           type="text"
@@ -126,7 +128,7 @@ export default function AdminSettingsForm({
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          SEO Description
+          {t("seoDescription")}
         </label>
         <textarea
           name="seo_description"
@@ -137,7 +139,7 @@ export default function AdminSettingsForm({
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          SEO Keywords (comma-separated)
+          {t("seoKeywords")}
         </label>
         <input
           type="text"
@@ -147,13 +149,13 @@ export default function AdminSettingsForm({
               ? initialData.seo_keywords.join(", ")
               : ""
           }
-          placeholder="photography, wedding, portrait"
+          placeholder={t("seoKeywordsPlaceholder")}
           className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          Intro Video URL (Vimeo)
+          {t("introVideoUrl")}
         </label>
         <input
           type="url"
@@ -163,12 +165,12 @@ export default function AdminSettingsForm({
           className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
         <p className="text-xs text-[var(--muted)] mt-1">
-          Paste the Vimeo share link. Leave empty to hide the section.
+          {t("vimeoHint")}
         </p>
       </div>
       <div>
         <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wider">
-          Proposal / Featured Video URL (Vimeo)
+          {t("proposalVideoUrl")}
         </label>
         <input
           type="url"
@@ -178,7 +180,7 @@ export default function AdminSettingsForm({
           className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
         <p className="text-xs text-[var(--muted)] mt-1">
-          Paste the Vimeo share link. Leave empty to hide the section.
+          {t("vimeoHint")}
         </p>
       </div>
       <div>
@@ -191,17 +193,17 @@ export default function AdminSettingsForm({
             onChange={(e) => setIntroAutoplay(e.target.checked)}
             className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)] rounded"
           />
-          <span className="text-sm text-[var(--foreground)]">Auto-play intro video</span>
+          <span className="text-sm text-[var(--foreground)]">{t("introVideoAutoplay")}</span>
         </label>
       </div>
       {state?.success === false && (
         <p className="text-[var(--accent-red)] text-sm">
-          Save failed: {state.error}
+          {t("saveFailed", { error: state.error ?? "" })}
         </p>
       )}
       {state?.success === true && (
         <p className="text-[var(--gold)] text-sm">
-          Settings saved successfully.
+          {t("saveSuccess")}
         </p>
       )}
       <button
@@ -210,7 +212,7 @@ export default function AdminSettingsForm({
         onClick={() => sessionStorage.setItem("adminSettingsScrollY", String(window.scrollY))}
         className="w-full py-3 border border-[var(--gold)] text-[var(--gold)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--gold)] hover:text-[var(--background)] transition-all disabled:opacity-50 cursor-pointer"
       >
-        {isPending ? "Saving..." : "Save"}
+        {isPending ? t("saving") : t("save")}
       </button>
     </form>
     </div>
