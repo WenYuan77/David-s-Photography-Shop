@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getBaseUrl } from "@/lib/request-base-url";
 
 const ADMIN_COOKIE = "admin_session";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
-
-function getBaseUrl(request: NextRequest): string {
-  const forwardedHost = request.headers.get("x-forwarded-host");
-  const host = request.headers.get("host") ?? forwardedHost ?? new URL(request.url).host;
-  const proto = request.headers.get("x-forwarded-proto") ?? "https";
-  return `${proto}://${forwardedHost ?? host}`;
-}
 
 const LOCALES = ["en", "zh", "th", "es"];
 

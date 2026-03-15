@@ -3,6 +3,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { getAdminLocale } from "@/lib/admin-locale";
+import { getBaseUrl } from "@/lib/request-base-url";
 
 const BUCKET = "portfolio";
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
@@ -16,10 +17,11 @@ function slugify(str: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  const baseUrl = getBaseUrl(request);
   const formData = await request.formData();
   const loc = getAdminLocale(request, formData.get("locale") as string | null);
   if (!(await isAdmin())) {
-    return NextResponse.redirect(new URL(`/${loc}/admin/login`, request.url));
+    return NextResponse.redirect(new URL(`/${loc}/admin/login`, baseUrl));
   }
 
   try {
@@ -33,22 +35,22 @@ export async function POST(request: NextRequest) {
 
     if (!file || file.size === 0) {
       return NextResponse.redirect(
-        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=no-file`, request.url)
+        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=no-file`, baseUrl)
       );
     }
     if (!categoryId || categoryId === "All") {
       return NextResponse.redirect(
-        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=no-category`, request.url)
+        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=no-category`, baseUrl)
       );
     }
     if (!ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.redirect(
-        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=invalid-type`, request.url)
+        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=invalid-type`, baseUrl)
       );
     }
     if (file.size > MAX_SIZE) {
       return NextResponse.redirect(
-        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=file-too-large`, request.url)
+        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=file-too-large`, baseUrl)
       );
     }
 
@@ -70,7 +72,7 @@ export async function POST(request: NextRequest) {
     if (uploadError) {
       console.error("portfolio upload-form error:", uploadError);
       return NextResponse.redirect(
-        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=${encodeURIComponent(uploadError.message)}`, request.url)
+        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=${encodeURIComponent(uploadError.message)}`, baseUrl)
       );
     }
 
@@ -90,16 +92,16 @@ export async function POST(request: NextRequest) {
     if (insertError) {
       await supabase.storage.from(BUCKET).remove([uploadData.path]);
       return NextResponse.redirect(
-        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=${encodeURIComponent(insertError.message)}`, request.url)
+        new URL(`${baseRedirect}${keepFilter ? "&" : "?"}error=${encodeURIComponent(insertError.message)}`, baseUrl)
       );
     }
 
     revalidatePath(`/${loc}/admin/portfolio`);
     revalidatePath("/");
-    return NextResponse.redirect(new URL(baseRedirect, request.url));
+    return NextResponse.redirect(new URL(baseRedirect, baseUrl));
   } catch (err) {
     console.error("portfolio upload-form error:", err);
     const fallbackLoc = getAdminLocale(request, null);
-    return NextResponse.redirect(new URL(`/${fallbackLoc}/admin/portfolio?error=failed`, request.url));
+    return NextResponse.redirect(new URL(`/${fallbackLoc}/admin/portfolio?error=failed`, baseUrl));
   }
 }

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { clearAdminSession } from "@/lib/auth";
+import { getBaseUrl } from "@/lib/request-base-url";
 
-/** GET /admin/logout - clears session and redirects to homepage */
+/** GET /[locale]/admin/logout - clears session and redirects to homepage */
 export async function GET(request: NextRequest) {
   await clearAdminSession();
-  return NextResponse.redirect(new URL("/", request.url));
+  const baseUrl = getBaseUrl(request);
+  return NextResponse.redirect(new URL("/", baseUrl));
 }

@@ -2,13 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
-
-function getBaseUrl(request: NextRequest): string {
-  const forwardedHost = request.headers.get("x-forwarded-host");
-  const host = request.headers.get("host") ?? forwardedHost ?? new URL(request.url).host;
-  const proto = request.headers.get("x-forwarded-proto") ?? "https";
-  return `${proto}://${forwardedHost ?? host}`;
-}
+import { getBaseUrl } from "@/lib/request-base-url";
 
 const intlMiddleware = createMiddleware(routing);
 

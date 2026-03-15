@@ -3,17 +3,19 @@ import { createServerClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { getAdminLocale } from "@/lib/admin-locale";
+import { getBaseUrl } from "@/lib/request-base-url";
 
 export async function POST(request: NextRequest) {
+  const baseUrl = getBaseUrl(request);
   const formData = await request.formData();
   const loc = getAdminLocale(request, formData.get("locale") as string | null);
   if (!(await isAdmin())) {
-    return NextResponse.redirect(new URL(`/${loc}/admin/login`, request.url));
+    return NextResponse.redirect(new URL(`/${loc}/admin/login`, baseUrl));
   }
 
   const id = String(formData.get("id") ?? "").trim();
   const filter = String(formData.get("filter") ?? "").trim();
-  const base = new URL(`/${loc}/admin/portfolio`, request.url);
+  const base = new URL(`/${loc}/admin/portfolio`, baseUrl);
   if (filter && filter !== "All") {
     base.searchParams.set("filter", filter);
   }
