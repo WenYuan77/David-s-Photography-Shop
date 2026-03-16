@@ -50,7 +50,9 @@ export type CategoryLabels = {
 };
 
 /**
- * For any missing locale, translate from the first available source. Modifies the object in place.
+ * Use the first non-empty locale as source and translate it into the other three,
+ * overwriting them so all four stay in sync (e.g. 中文 "宠物" → en/th/es get translation).
+ * Modifies the object in place.
  */
 export async function fillMissingCategoryLabels(labels: CategoryLabels): Promise<void> {
   const entries: [Locale, keyof CategoryLabels][] = [
@@ -73,8 +75,6 @@ export async function fillMissingCategoryLabels(labels: CategoryLabels): Promise
 
   for (const [targetLang, key] of entries) {
     if (targetLang === sourceLang) continue;
-    const existing = labels[key];
-    if (existing != null && existing.trim() !== "") continue; // keep existing
     const translated = await translateText(sourceText, sourceLang, targetLang);
     if (translated) (labels as Record<string, string | null>)[key] = translated;
   }
