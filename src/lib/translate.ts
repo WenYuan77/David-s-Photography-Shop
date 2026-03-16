@@ -1,6 +1,6 @@
 /**
- * Google Cloud Translation API v2 (Basic) - fill missing locale labels from a source text.
- * Uses GOOGLE_TRANSLATE_API_KEY from env. Server-side only.
+ * Translation: DeepL (priority) and Google Cloud Translation API v2 (fallback).
+ * Uses DEEPL_AUTH_KEY and/or GOOGLE_TRANSLATE_API_KEY from env. Server-side only.
  */
 
 const LOCALES = ["en", "zh", "th", "es"] as const;
@@ -13,13 +13,64 @@ const GOOGLE_LANG: Record<Locale, string> = {
   es: "es",
 };
 
-export async function translateText(
+const DEEPL_LANG: Record<Locale, string> = {
+  en: "EN",
+  zh: "ZH",
+  th: "TH",
+  es: "ES",
+};
+
+function getDeepLBaseUrl(authKey: string): string {
+  return authKey.endsWith(":fx") ? "https://api-free.deepl.com" : "https://api.deepl.com";
+}
+
+async function translateWithDeepL(
+  text: string,
+  sourceLang: Locale,
+  targetLang: Locale
+): Promise<string | null> {
+  const key = process.env.DEEPL_AUTH_KEY?.trim();
+  if (!key) return null;
+  if (sourceLang === targetLang) return text;
+
+  try {
+    const base = getDeepLBaseUrl(key);
+    const res = await fetch(`${base}/v2/translate`, {
+      method: "POST",
+      headers: {
+        Authorization: `DeepL-Auth-Key ${key}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: [text],
+        source_lang: DEEPL_LANG[sourceLang],
+        target_lang: DEEPL_LANG[targetLang],
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      console.warn("[translate] DeepL error", res.status, sourceLang, "->", targetLang, body.slice(0, 200));
+      return null;
+    }
+    const data = (await res.json()) as { translations?: { text?: string }[] };
+    const translated = data?.translations?.[0]?.text ?? null;
+    return translated || null;
+  } catch (err) {
+    console.warn("[translate] DeepL exception", sourceLang, "->", targetLang, err);
+    return null;
+  }
+}
+
+async function translateWithGoogle(
   text: string,
   sourceLang: Locale,
   targetLang: Locale
 ): Promise<string | null> {
   const key = process.env.GOOGLE_TRANSLATE_API_KEY?.trim();
-  if (!key) return null;
+  if (!key) {
+    console.warn("[translate] skipped: GOOGLE_TRANSLATE_API_KEY not set");
+    return null;
+  }
   if (sourceLang === targetLang) return text;
 
   try {
@@ -30,16 +81,33 @@ export async function translateText(
     url.searchParams.set("source", GOOGLE_LANG[sourceLang]);
     const res = await fetch(url.toString(), { method: "GET" });
     if (!res.ok) {
-      console.error("translate api error", res.status, await res.text());
+      console.error("[translate] Google api error", res.status, sourceLang, "->", targetLang, await res.text());
       return null;
     }
     const data = (await res.json()) as { data?: { translations?: { translatedText: string }[] } };
     const translated = data?.data?.translations?.[0]?.translatedText ?? null;
+    if (translated == null) {
+      console.warn("[translate] Google empty result:", sourceLang, "->", targetLang);
+    }
     return translated;
   } catch (err) {
-    console.error("translate error", err);
+    console.error("[translate] Google error", sourceLang, "->", targetLang, err);
     return null;
   }
+}
+
+/** Try DeepL first; if it returns null, fall back to Google. */
+export async function translateText(
+  text: string,
+  sourceLang: Locale,
+  targetLang: Locale
+): Promise<string | null> {
+  if (sourceLang === targetLang) return text;
+
+  const deepl = await translateWithDeepL(text, sourceLang, targetLang);
+  if (deepl != null && deepl !== "") return deepl;
+
+  return translateWithGoogle(text, sourceLang, targetLang);
 }
 
 export type CategoryLabels = {
@@ -76,9 +144,13 @@ export async function fillCategoryLabelsFromOne(
 
   (labels as Record<string, string | null>)[`label_${sourceLocale}`] = trimmed;
 
+  const delayMs = 350;
+  let first = true;
   for (const key of LABEL_KEYS) {
     const targetLang = LOCALE_BY_KEY[key];
     if (targetLang === sourceLocale) continue;
+    if (!first) await new Promise((r) => setTimeout(r, delayMs));
+    first = false;
     const translated = await translateText(trimmed, sourceLocale, targetLang);
     // Only set when translation succeeds; otherwise leave null so we don't show source language (e.g. 活动) on Thai site
     if (translated) (labels as Record<string, string | null>)[key] = translated;
