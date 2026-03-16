@@ -18,11 +18,14 @@ export default async function Home({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const [{ categories, images }, siteSettings, videoT] = await Promise.all([
-    getPortfolioData(),
+  const [portfolioData, siteSettings, videoT, catT] = await Promise.all([
+    getPortfolioData(locale),
     getSiteSettings(),
     getTranslations("video"),
+    getTranslations("categories"),
   ]);
+  const categories = [{ id: "All", label: catT("All") }, ...portfolioData.categories];
+  const images = portfolioData.images;
 
   return (
     <>

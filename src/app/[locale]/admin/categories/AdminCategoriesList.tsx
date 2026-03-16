@@ -5,10 +5,8 @@ import { useEffect } from "react";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { toCategoryKey } from "@/lib/category-i18n";
 import { addCategoryAction } from "./actions";
-
-type Category = { id: string; label: string; sort_order?: number };
+import type { CategoryWithLabels } from "@/lib/portfolio-data";
 
 export default function AdminCategoriesList({
   initialCategories,
@@ -16,20 +14,14 @@ export default function AdminCategoriesList({
   deleteId,
   formError,
 }: {
-  initialCategories: Category[];
+  initialCategories: CategoryWithLabels[];
   editId: string | null;
   deleteId: string | null;
   formError: string | null;
 }) {
   const locale = useLocale();
   const t = useTranslations("admin.categories");
-  const catT = useTranslations("categories");
   const router = useRouter();
-  const categoryLabel = (id: string, fallback: string) => {
-    const key = toCategoryKey(id);
-    const translated = catT(key);
-    return translated && translated !== key ? translated : fallback;
-  };
   const [addState, addFormAction, addPending] = useActionState(addCategoryAction, null);
   const adminCategories = `/${locale}/admin/categories`;
 
@@ -50,15 +42,35 @@ export default function AdminCategoriesList({
         </h1>
       </div>
 
-      <form action={addFormAction} className="flex gap-2 mb-6">
+      <form action={addFormAction} className="space-y-4 mb-8">
         <input type="hidden" name="locale" value={locale} />
-        <input
-          type="text"
-          name="label"
-          placeholder={t("categoryNamePlaceholder")}
-          required
-          className="flex-1 px-4 py-2 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input
+            type="text"
+            name="label_en"
+            placeholder={t("labelEn")}
+            className="px-4 py-2 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--gold)]"
+          />
+          <input
+            type="text"
+            name="label_zh"
+            placeholder={t("labelZh")}
+            className="px-4 py-2 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--gold)]"
+          />
+          <input
+            type="text"
+            name="label_th"
+            placeholder={t("labelTh")}
+            className="px-4 py-2 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--gold)]"
+          />
+          <input
+            type="text"
+            name="label_es"
+            placeholder={t("labelEs")}
+            className="px-4 py-2 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--gold)]"
+          />
+        </div>
+        <p className="text-[var(--muted)] text-xs">{t("addHint")}</p>
         <button
           type="submit"
           disabled={addPending}
@@ -70,36 +82,61 @@ export default function AdminCategoriesList({
 
       {editingCat && (
         <div className="mb-6 p-4 border border-[var(--gold)] bg-[#0d0d0d]">
-          <h2 className="text-lg text-white mb-3">{t("edit")}: {categoryLabel(editingCat.id, editingCat.label)}</h2>
-          <form action="/api/categories/update-form" method="POST" className="flex gap-2">
+          <h2 className="text-lg text-white mb-3">{t("edit")}: {editingCat.label}</h2>
+          <form action="/api/categories/update-form" method="POST" className="space-y-3">
             <input type="hidden" name="id" value={editingCat.id} />
-            <input
-              type="text"
-              name="label"
-              defaultValue={editingCat.label}
-              required
-              className="flex-1 px-3 py-2 bg-transparent border border-[var(--border)] text-[var(--foreground)]"
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 border border-[var(--gold)] text-[var(--gold)] text-sm cursor-pointer"
-            >
-              {t("save")}
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input
+                type="text"
+                name="label_en"
+                defaultValue={editingCat.label_en ?? ""}
+                placeholder={t("labelEn")}
+                className="px-3 py-2 bg-transparent border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)]"
+              />
+              <input
+                type="text"
+                name="label_zh"
+                defaultValue={editingCat.label_zh ?? ""}
+                placeholder={t("labelZh")}
+                className="px-3 py-2 bg-transparent border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)]"
+              />
+              <input
+                type="text"
+                name="label_th"
+                defaultValue={editingCat.label_th ?? ""}
+                placeholder={t("labelTh")}
+                className="px-3 py-2 bg-transparent border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)]"
+              />
+              <input
+                type="text"
+                name="label_es"
+                defaultValue={editingCat.label_es ?? ""}
+                placeholder={t("labelEs")}
+                className="px-3 py-2 bg-transparent border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)]"
+              />
+            </div>
+            <div className="flex gap-2 items-center">
+              <button
+                type="submit"
+                className="px-4 py-2 border border-[var(--gold)] text-[var(--gold)] text-sm cursor-pointer"
+              >
+                {t("save")}
+              </button>
+              <Link
+                href={adminCategories}
+                className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]"
+              >
+                {t("cancel")}
+              </Link>
+            </div>
           </form>
-          <Link
-            href={adminCategories}
-            className="inline-block mt-2 text-sm text-[var(--muted)] hover:text-[var(--foreground)]"
-          >
-            {t("cancel")}
-          </Link>
         </div>
       )}
 
       {deletingCat && (
         <div className="mb-6 p-4 border border-[var(--accent-red)]/60 bg-[#0d0d0d]">
           <h2 className="text-lg text-white mb-3">
-            {t("deleteConfirm", { label: categoryLabel(deletingCat.id, deletingCat.label) })}
+            {t("deleteConfirm", { label: deletingCat.label })}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-3">
             {t("deleteWarning")}
@@ -133,7 +170,7 @@ export default function AdminCategoriesList({
             className="flex items-center justify-between py-3 border-b border-[var(--border)]"
           >
             <div>
-              <span className="text-[var(--foreground)]">{categoryLabel(cat.id, cat.label)}</span>
+              <span className="text-[var(--foreground)]">{cat.label}</span>
               <span className="ml-2 text-[var(--muted)] text-xs">({cat.id})</span>
             </div>
             <div className="flex gap-2 items-center">

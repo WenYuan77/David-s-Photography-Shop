@@ -140,8 +140,12 @@
     },
     "categories": {
       "title": "หมวดหมู่",
-      "categoryNamePlaceholder": "ชื่อหมวดหมู่",
+      "labelEn": "English",
+      "labelZh": "中文",
+      "labelTh": "ไทย",
+      "labelEs": "Español",
       "add": "เพิ่ม",
+      "addHint": "กรอกอย่างน้อยหนึ่งภาษา ทุกภาษาจะอัปเดตตามกัน",
       "adding": "กำลังเพิ่ม...",
       "edit": "แก้ไข",
       "save": "บันทึก",

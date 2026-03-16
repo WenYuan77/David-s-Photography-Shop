@@ -140,8 +140,12 @@
     },
     "categories": {
       "title": "Categorías",
-      "categoryNamePlaceholder": "Nombre de la categoría",
+      "labelEn": "English",
+      "labelZh": "中文",
+      "labelTh": "ไทย",
+      "labelEs": "Español",
       "add": "Añadir",
+      "addHint": "Rellena al menos un idioma; todas las versiones se mantendrán sincronizadas.",
       "adding": "Añadiendo...",
       "edit": "Editar",
       "save": "Guardar",

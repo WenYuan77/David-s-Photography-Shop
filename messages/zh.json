@@ -140,8 +140,12 @@
     },
     "categories": {
       "title": "分类",
-      "categoryNamePlaceholder": "分类名称",
+      "labelEn": "English",
+      "labelZh": "中文",
+      "labelTh": "ไทย",
+      "labelEs": "Español",
       "add": "添加",
+      "addHint": "至少填写一种语言；各语言版本将同步更新。",
       "adding": "添加中...",
       "edit": "编辑",
       "save": "保存",

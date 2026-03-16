@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { toCategoryKey } from "@/lib/category-i18n";
 import { uploadPortfolioAction } from "./actions";
 
 type Category = { id: string; label: string };
@@ -18,12 +17,6 @@ export default function UploadForm({
   defaultCategoryId: string;
 }) {
   const t = useTranslations("admin.portfolio");
-  const catT = useTranslations("categories");
-  const categoryLabel = (id: string, fallback: string) => {
-    const key = toCategoryKey(id);
-    const translated = catT(key);
-    return translated && translated !== key ? translated : fallback;
-  };
   return (
     <form
       action={uploadPortfolioAction}
@@ -46,7 +39,7 @@ export default function UploadForm({
       >
         {categories.map((c) => (
           <option key={c.id} value={c.id}>
-            {categoryLabel(c.id, c.label)}
+            {c.label}
           </option>
         ))}
       </select>

@@ -10,11 +10,9 @@ export default async function AdminDashboardPage({
   const { locale } = await params;
   const t = await getTranslations("admin.dashboard");
   const [{ categories, images }, siteSettings] = await Promise.all([
-    getPortfolioData(),
+    getPortfolioData(locale),
     getSiteSettings(),
   ]);
-
-  const categoriesWithoutAll = categories.filter((c) => c.id !== "All");
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-12">
@@ -46,7 +44,7 @@ export default async function AdminDashboardPage({
             {t("categories")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">
-            {t("categoriesCount", { count: categoriesWithoutAll.length })}
+            {t("categoriesCount", { count: categories.length })}
           </p>
           <a
             href={`/${locale}/admin/categories`}

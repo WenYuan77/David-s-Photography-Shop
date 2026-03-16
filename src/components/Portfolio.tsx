@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import type { PortfolioCategory, PortfolioImage } from "@/lib/portfolio-data";
-import { toCategoryKey } from "@/lib/category-i18n";
 
 const INITIAL_LIMIT = 20;
 
@@ -15,15 +14,9 @@ type Props = {
 
 export default async function Portfolio({ categories, images: portfolioImages }: Props) {
   const t = await getTranslations("portfolio");
-  const catT = await getTranslations("categories");
   const imagesByCategory = categories.filter((c) => c.id !== "All");
 
-  const categoryLabel = (id: string) => {
-    const key = toCategoryKey(id);
-    const translated = catT(key);
-    if (translated && translated !== key) return translated;
-    return categories.find((c) => c.id === id)?.label ?? id;
-  };
+  const categoryLabel = (id: string) => categories.find((c) => c.id === id)?.label ?? id;
 
   const getImagesForCategory = (catId: string) =>
     catId === "All"
@@ -70,7 +63,7 @@ export default async function Portfolio({ categories, images: portfolioImages }:
                 className="portfolio-filter-link px-4 py-2 text-xs md:text-sm font-medium tracking-[0.12em] md:tracking-[0.15em] uppercase transition-all duration-300 whitespace-nowrap border-0 bg-transparent block no-underline text-[var(--muted)] hover:text-[var(--gold)] data-[active]:text-[var(--gold)]"
                 data-category={cat.id}
               >
-                {categoryLabel(cat.id)}
+                {cat.label}
               </a>
             ))}
           </nav>

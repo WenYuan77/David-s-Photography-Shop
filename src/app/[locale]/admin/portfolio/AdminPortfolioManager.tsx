@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { toCategoryKey } from "@/lib/category-i18n";
 import DeletePortfolioLink from "./DeletePortfolioLink";
 
 type ImageItem = { id: string; category: string; src: string; alt: string };
@@ -38,13 +37,9 @@ export default function AdminPortfolioManager({
 }) {
   const locale = useLocale();
   const t = useTranslations("admin.portfolio");
-  const catT = useTranslations("categories");
-  const categoryLabel = (id: string, fallback: string) => {
-    const key = toCategoryKey(id);
-    const translated = catT(key);
-    return translated && translated !== key ? translated : fallback;
-  };
   const [images] = useState(initialImages);
+  const getCategoryLabel = (categoryId: string) =>
+    categories.find((c) => c.id === categoryId)?.label ?? categoryId;
   const [categories] = useState(initialCategories);
   const [counts] = useState(totalImagesByCategory);
 
@@ -97,7 +92,7 @@ export default function AdminPortfolioManager({
                   : "border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--gold)]"
               }`}
             >
-              {categoryLabel(c.id, c.label)} ({count})
+              {c.label} ({count})
             </a>
           );
         })}
@@ -120,7 +115,7 @@ export default function AdminPortfolioManager({
             <div className="mt-2 text-[var(--muted)] text-xs truncate">
               {img.alt || t("noAlt")}
             </div>
-            <div className="mt-1 text-[var(--muted)] text-xs">{categoryLabel(img.category, img.category)}</div>
+            <div className="mt-1 text-[var(--muted)] text-xs">{getCategoryLabel(img.category)}</div>
 
             <div className="relative z-10 mt-2 flex gap-3 items-center">
               <a

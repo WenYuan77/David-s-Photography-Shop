@@ -14,8 +14,8 @@ export default async function AdminPortfolioPage({
   searchParams: Promise<{ filter?: string; error?: string }>;
 }) {
   const { locale } = await params;
-  const { categories, images } = await getPortfolioData();
-  const categoriesWithoutAll = categories.filter((c) => c.id !== "All");
+  const { categories, images } = await getPortfolioData(locale);
+  const categoriesWithoutAll = categories;
   const search = await searchParams;
   const { filter: filterParam, error: formError } = search;
   const validIds = new Set(["All", ...categoriesWithoutAll.map((c) => c.id)]);
