@@ -32,17 +32,18 @@ export async function POST(request: NextRequest) {
   const labels = await fillCategoryLabelsFromOne(singleLabel, sourceLocale as "en" | "zh" | "th" | "es");
   const label = labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? singleLabel;
 
+  // Only update label_* columns that have values, so we don't overwrite existing translations with null on API failure
+  const updatePayload: Record<string, string> = { label };
+  for (const key of ["label_en", "label_zh", "label_th", "label_es"] as const) {
+    const v = labels[key];
+    if (v != null && v !== "") updatePayload[key] = v;
+  }
+
   try {
     const supabase = createServerClient();
     const { error } = await supabase
       .from("categories")
-      .update({
-        label_en: labels.label_en,
-        label_zh: labels.label_zh,
-        label_th: labels.label_th,
-        label_es: labels.label_es,
-        label,
-      })
+      .update(updatePayload)
       .eq("id", id);
 
     if (error) {

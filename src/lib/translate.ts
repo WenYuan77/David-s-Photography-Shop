@@ -80,7 +80,8 @@ export async function fillCategoryLabelsFromOne(
     const targetLang = LOCALE_BY_KEY[key];
     if (targetLang === sourceLocale) continue;
     const translated = await translateText(trimmed, sourceLocale, targetLang);
-    (labels as Record<string, string | null>)[key] = translated ?? trimmed;
+    // Only set when translation succeeds; otherwise leave null so we don't show source language (e.g. 活动) on Thai site
+    if (translated) (labels as Record<string, string | null>)[key] = translated;
   }
   return labels;
 }
