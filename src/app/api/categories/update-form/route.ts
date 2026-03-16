@@ -17,24 +17,20 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
   const id = String(formData.get("id") ?? "").trim();
-  const labels = {
-    label_en: String(formData.get("label_en") ?? "").trim() || null,
-    label_zh: String(formData.get("label_zh") ?? "").trim() || null,
-    label_th: String(formData.get("label_th") ?? "").trim() || null,
-    label_es: String(formData.get("label_es") ?? "").trim() || null,
-  };
+  const singleLabel = String(formData.get("label") ?? "").trim();
+  const formLocale = String(formData.get("locale") ?? loc).trim();
+  const sourceLocale = ["en", "zh", "th", "es"].includes(formLocale) ? formLocale : "en";
 
   if (!id) {
     return NextResponse.redirect(new URL(`/${loc}/admin/categories?error=invalid`, baseUrl));
   }
-  if (!labels.label_en && !labels.label_zh && !labels.label_th && !labels.label_es) {
+  if (!singleLabel) {
     return NextResponse.redirect(new URL(`/${loc}/admin/categories?edit=${encodeURIComponent(id)}&error=invalid`, baseUrl));
   }
 
-  const { fillMissingCategoryLabels } = await import("@/lib/translate");
-  await fillMissingCategoryLabels(labels);
-
-  const label = labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? "";
+  const { fillCategoryLabelsFromOne } = await import("@/lib/translate");
+  const labels = await fillCategoryLabelsFromOne(singleLabel, sourceLocale as "en" | "zh" | "th" | "es");
+  const label = labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? singleLabel;
 
   try {
     const supabase = createServerClient();

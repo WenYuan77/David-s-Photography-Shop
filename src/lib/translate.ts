@@ -49,12 +49,50 @@ export type CategoryLabels = {
   label_es: string | null;
 };
 
+const LABEL_KEYS: (keyof CategoryLabels)[] = ["label_en", "label_zh", "label_th", "label_es"];
+const LOCALE_BY_KEY: Record<keyof CategoryLabels, Locale> = {
+  label_en: "en",
+  label_zh: "zh",
+  label_th: "th",
+  label_es: "es",
+};
+
 /**
- * Use the first non-empty locale as source and translate it into the other three,
- * overwriting them so all four stay in sync (e.g. 中文 "宠物" → en/th/es get translation).
- * Modifies the object in place.
+ * Build all 4 labels from a single source (e.g. admin types "机车" in 中文; we translate to en/th/es).
+ * Use this when the UI has only one input; sourceLocale is the current admin locale.
  */
-export async function fillMissingCategoryLabels(labels: CategoryLabels): Promise<void> {
+export async function fillCategoryLabelsFromOne(
+  sourceText: string,
+  sourceLocale: Locale
+): Promise<CategoryLabels> {
+  const labels: CategoryLabels = {
+    label_en: null,
+    label_zh: null,
+    label_th: null,
+    label_es: null,
+  };
+  const trimmed = sourceText.trim();
+  if (!trimmed) return labels;
+
+  (labels as Record<string, string | null>)[`label_${sourceLocale}`] = trimmed;
+
+  for (const key of LABEL_KEYS) {
+    const targetLang = LOCALE_BY_KEY[key];
+    if (targetLang === sourceLocale) continue;
+    const translated = await translateText(trimmed, sourceLocale, targetLang);
+    (labels as Record<string, string | null>)[key] = translated ?? trimmed;
+  }
+  return labels;
+}
+
+/**
+ * Use the first non-empty locale as source and translate into the other three (overwrite).
+ * When preferredLocale is set, use that as source if it has a value.
+ */
+export async function fillMissingCategoryLabels(
+  labels: CategoryLabels,
+  preferredLocale?: Locale
+): Promise<void> {
   const entries: [Locale, keyof CategoryLabels][] = [
     ["en", "label_en"],
     ["zh", "label_zh"],
@@ -63,12 +101,22 @@ export async function fillMissingCategoryLabels(labels: CategoryLabels): Promise
   ];
   let sourceLang: Locale | null = null;
   let sourceText: string | null = null;
-  for (const [loc, key] of entries) {
+  if (preferredLocale) {
+    const key = `label_${preferredLocale}` as keyof CategoryLabels;
     const v = labels[key];
     if (v != null && v.trim() !== "") {
-      sourceLang = loc;
+      sourceLang = preferredLocale;
       sourceText = v.trim();
-      break;
+    }
+  }
+  if (!sourceLang || !sourceText) {
+    for (const [loc, key] of entries) {
+      const v = labels[key];
+      if (v != null && v.trim() !== "") {
+        sourceLang = loc;
+        sourceText = v.trim();
+        break;
+      }
     }
   }
   if (!sourceLang || !sourceText) return;

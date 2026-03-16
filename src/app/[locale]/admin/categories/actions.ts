@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { createServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
-import { fillMissingCategoryLabels } from "@/lib/translate";
 
 function slugFrom(s: string): string {
   return s.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "");
@@ -16,25 +15,17 @@ export async function addCategoryAction(
   if (!(await isAdmin())) return { error: "Unauthorized" };
   if (!isSupabaseConfigured()) return { error: "Supabase not configured" };
 
-  const labels = {
-    label_en: String(formData.get("label_en") ?? "").trim() || null,
-    label_zh: String(formData.get("label_zh") ?? "").trim() || null,
-    label_th: String(formData.get("label_th") ?? "").trim() || null,
-    label_es: String(formData.get("label_es") ?? "").trim() || null,
-  };
-
-  const label = labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es;
-  if (!label) return { error: "At least one language is required" };
-
-  await fillMissingCategoryLabels(labels);
-
+  const singleLabel = String(formData.get("label") ?? "").trim();
   const localeRaw = String(formData.get("locale") ?? "en").trim();
   const locale = ["en", "zh", "th", "es"].includes(localeRaw) ? localeRaw : "en";
 
-  const slug = slugFrom(labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? "");
-  if (!slug) return { error: "Invalid category name" };
+  if (!singleLabel) return { error: "Category name is required" };
 
-  const finalLabel = labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? "";
+  const { fillCategoryLabelsFromOne } = await import("@/lib/translate");
+  const labels = await fillCategoryLabelsFromOne(singleLabel, locale as "en" | "zh" | "th" | "es");
+  const finalLabel = labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? singleLabel;
+  let slug = slugFrom(labels.label_en ?? labels.label_zh ?? labels.label_th ?? labels.label_es ?? singleLabel);
+  if (!slug) slug = "cat-" + Date.now();
 
   try {
     const supabase = createServerClient();
