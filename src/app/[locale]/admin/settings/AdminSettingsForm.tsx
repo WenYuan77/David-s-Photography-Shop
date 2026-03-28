@@ -2,6 +2,7 @@
 
 import { useActionState, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { saveSiteSettings, uploadHeroImageAction } from "./actions";
 import type { SiteSettingsFull } from "@/lib/site-settings";
@@ -22,13 +23,6 @@ export default function AdminSettingsForm({
     return initialData.intro_video_autoplay ?? false;
   });
 
-  // After successful save, sync introAutoplay from server response (source of truth)
-  useEffect(() => {
-    if (state?.success === true && "intro_video_autoplay" in state) {
-      setIntroAutoplay(state.intro_video_autoplay);
-    }
-  }, [state]);
-
   // Preserve scroll position after save
   useEffect(() => {
     if (state !== null) {
@@ -43,8 +37,8 @@ export default function AdminSettingsForm({
   return (
     <div className="space-y-8">
       {/* Hero Image */}
-      <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
-        <h2 className="text-lg text-white mb-4">{t("heroImage")}</h2>
+      <section className="surface-card p-6 border">
+        <h2 className="text-lg text-[var(--heading)] mb-4">{t("heroImage")}</h2>
         <p className="text-sm text-[var(--muted)] mb-4">
           {t("heroImageDesc")}
         </p>
@@ -59,12 +53,13 @@ export default function AdminSettingsForm({
                 sizes="400px"
               />
             </div>
-            <a
+            <Link
               href="/api/site/hero/download"
+              prefetch={false}
               className="inline-block mt-2 text-xs text-[var(--gold)] hover:underline cursor-pointer"
             >
               {t("download")}
-            </a>
+            </Link>
           </div>
         )}
         {heroError && (
@@ -101,7 +96,7 @@ export default function AdminSettingsForm({
           type="tel"
           name="phone"
           defaultValue={initialData.phone ?? ""}
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
         />
       </div>
       <div>
@@ -112,7 +107,7 @@ export default function AdminSettingsForm({
           type="email"
           name="email"
           defaultValue={initialData.email ?? ""}
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
         />
       </div>
       <div>
@@ -123,7 +118,7 @@ export default function AdminSettingsForm({
           type="text"
           name="seo_title"
           defaultValue={initialData.seo_title ?? ""}
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)]"
         />
       </div>
       <div>
@@ -134,7 +129,7 @@ export default function AdminSettingsForm({
           name="seo_description"
           defaultValue={initialData.seo_description ?? ""}
           rows={3}
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] resize-none"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] resize-none"
         />
       </div>
       <div>
@@ -150,7 +145,7 @@ export default function AdminSettingsForm({
               : ""
           }
           placeholder={t("seoKeywordsPlaceholder")}
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
       </div>
       <div>
@@ -162,7 +157,7 @@ export default function AdminSettingsForm({
           name="intro_video_url"
           defaultValue={initialData.intro_video_url ?? ""}
           placeholder="https://vimeo.com/123456789"
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
         <p className="text-xs text-[var(--muted)] mt-1">
           {t("vimeoHint")}
@@ -177,7 +172,7 @@ export default function AdminSettingsForm({
           name="proposal_video_url"
           defaultValue={initialData.proposal_video_url ?? ""}
           placeholder="https://vimeo.com/123456789"
-          className="w-full px-4 py-3 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
+          className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--gold)] placeholder:text-[var(--muted)]"
         />
         <p className="text-xs text-[var(--muted)] mt-1">
           {t("vimeoHint")}
@@ -191,7 +186,7 @@ export default function AdminSettingsForm({
             value="true"
             checked={introAutoplay}
             onChange={(e) => setIntroAutoplay(e.target.checked)}
-            className="w-4 h-4 accent-[var(--gold)] bg-[#0d0d0d] border border-[var(--border)] rounded"
+            className="w-4 h-4 accent-[var(--gold)] bg-[var(--surface)] border border-[var(--border)] rounded"
           />
           <span className="text-sm text-[var(--foreground)]">{t("introVideoAutoplay")}</span>
         </label>

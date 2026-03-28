@@ -64,7 +64,7 @@ export default async function Services() {
           <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">
             {t("label")}
           </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-[var(--heading)]">
             {t("title")}
           </h2>
           <div className="divider-gold w-24 mx-auto mt-6" />
@@ -74,12 +74,12 @@ export default async function Services() {
           {services.map((service) => (
             <div
               key={service.key}
-              className="group relative p-8 border border-[var(--border)]/50 hover:border-[var(--gold)]/50 transition-all duration-500"
+              className="group relative p-8 border surface-card hover:border-[var(--gold)]/50 transition-all duration-500"
             >
               <div className="text-[var(--gold)] mb-6 group-hover:scale-110 transition-transform duration-300">
                 {service.icon}
               </div>
-              <h3 className="font-[family-name:var(--font-playfair)] text-xl font-medium text-white mb-4 tracking-wide">
+              <h3 className="font-[family-name:var(--font-playfair)] text-xl font-medium text-[var(--heading)] mb-4 tracking-wide">
                 {service.title}
               </h3>
               <p className="text-[var(--muted)] font-[family-name:var(--font-cormorant)] text-base leading-relaxed">

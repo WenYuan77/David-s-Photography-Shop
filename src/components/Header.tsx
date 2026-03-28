@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const t = useTranslations();
@@ -50,6 +51,7 @@ export default function Header() {
               {t(`nav.${item.key}`)}
             </a>
           ))}
+          <ThemeToggle />
           <LanguageSwitcher />
         </div>
 
@@ -75,6 +77,9 @@ export default function Header() {
             </a>
           ))}
           <div className="pt-2 border-t border-[var(--border)]/50">
+            <div className="mb-3">
+              <ThemeToggle showLabel />
+            </div>
             <LanguageSwitcher />
           </div>
         </div>

@@ -6,6 +6,13 @@
     "contact": "联系"
   },
   "brand": "Final Stage",
+  "theme": {
+    "toggle": "切换主题",
+    "light": "浅色",
+    "dark": "深色",
+    "switchToLight": "切换到浅色模式",
+    "switchToDark": "切换到深色模式"
+  },
   "hero": {
     "badge": "专业摄影",
     "tagline": "让瞬间成为永恒",

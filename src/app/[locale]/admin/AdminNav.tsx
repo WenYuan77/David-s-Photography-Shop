@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function AdminNav() {
   const pathname = usePathname();
@@ -21,7 +22,8 @@ export default function AdminNav() {
         >
           {t("admin")}
         </a>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
+          <ThemeToggle />
           <a
             href={adminRoot}
             className={`text-sm tracking-[0.15em] uppercase ${pathname === adminRoot ? "text-[var(--gold)]" : "text-[var(--muted)] hover:text-[var(--gold)]"}`}

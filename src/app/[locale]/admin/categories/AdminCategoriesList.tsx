@@ -49,7 +49,7 @@ export default function AdminCategoriesList({
           name="label"
           placeholder={t("singleLabelPlaceholder")}
           required
-          className="w-full max-w-md px-4 py-2 bg-[#0d0d0d] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--gold)]"
+          className="w-full max-w-md px-4 py-2 bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--gold)]"
         />
         <p className="text-[var(--muted)] text-xs">{t("addHint")}</p>
         <button
@@ -62,8 +62,8 @@ export default function AdminCategoriesList({
       </form>
 
       {editingCat && (
-        <div className="mb-6 p-4 border border-[var(--gold)] bg-[#0d0d0d]">
-          <h2 className="text-lg text-white mb-3">{t("edit")}: {editingCat.label}</h2>
+        <div className="surface-card mb-6 p-4 border border-[var(--gold)]">
+          <h2 className="text-lg text-[var(--heading)] mb-3">{t("edit")}: {editingCat.label}</h2>
           <form action="/api/categories/update-form" method="POST" className="space-y-3">
             <input type="hidden" name="id" value={editingCat.id} />
             <input type="hidden" name="locale" value={locale} />
@@ -95,8 +95,8 @@ export default function AdminCategoriesList({
       )}
 
       {deletingCat && (
-        <div className="mb-6 p-4 border border-[var(--accent-red)]/60 bg-[#0d0d0d]">
-          <h2 className="text-lg text-white mb-3">
+        <div className="surface-card mb-6 p-4 border border-[var(--accent-red)]/60">
+          <h2 className="text-lg text-[var(--heading)] mb-3">
             {t("deleteConfirm", { label: deletingCat.label })}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-3">
@@ -106,7 +106,7 @@ export default function AdminCategoriesList({
             <input type="hidden" name="id" value={deletingCat.id} />
             <button
               type="submit"
-              className="px-4 py-2 bg-[var(--accent-red)] text-white text-sm cursor-pointer"
+              className="px-4 py-2 bg-[var(--accent-red)] text-[var(--accent-contrast)] text-sm cursor-pointer"
             >
               {t("confirmDelete")}
             </button>

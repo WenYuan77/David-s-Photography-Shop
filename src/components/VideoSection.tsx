@@ -16,20 +16,20 @@ export default function VideoSection({ url, title, subtitle, sectionId, dark, au
   return (
     <section
       id={sectionId}
-      className={`scroll-mt-24 py-24 md:py-32 ${dark ? "bg-[#0d0d0d]" : ""}`}
+      className={`scroll-mt-24 py-24 md:py-32 ${dark ? "bg-[var(--section-alt)]" : ""}`}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-12 md:mb-16">
           <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">
             {subtitle}
           </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-[var(--heading)]">
             {title}
           </h2>
           <div className="divider-gold w-24 mx-auto mt-6" />
         </div>
         <div className="max-w-4xl mx-auto">
-          <div className="relative w-full aspect-video overflow-hidden bg-[#0d0d0d] border border-[var(--border)] shadow-[0_0_40px_rgba(201,169,98,0.08)]">
+          <div className="relative w-full aspect-video overflow-hidden bg-[var(--surface)] border border-[var(--border)] shadow-[var(--shadow-gold)]">
             <iframe
               src={embedUrl}
               title={title}

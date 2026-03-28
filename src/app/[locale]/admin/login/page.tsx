@@ -24,7 +24,7 @@ export default async function AdminLoginPage({
       <form
         method="post"
         action="/api/auth/login-form"
-        className="w-full max-w-sm p-8 border border-[var(--border)] bg-[#0d0d0d]"
+        className="surface-card w-full max-w-sm p-8 border"
       >
         <input type="hidden" name="locale" value={locale} />
         <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[var(--gold)] tracking-[0.2em] uppercase mb-6 text-center">

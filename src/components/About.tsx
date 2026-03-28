@@ -11,7 +11,7 @@ export default async function About() {
             <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-6">
               {t("heading")}
             </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white mb-8 leading-tight">
+            <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-[var(--heading)] mb-8 leading-tight">
               {t("title")}
               <br />
               <span className="text-[var(--muted)]">{t("titleMuted")}</span>

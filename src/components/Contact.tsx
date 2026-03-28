@@ -10,11 +10,11 @@ export default async function Contact({ phone, email }: Props) {
   const telHref = phone.replace(/\D/g, "");
 
   return (
-    <section id="contact" className="scroll-mt-24 py-24 md:py-32 bg-[#0d0d0d]">
+    <section id="contact" className="scroll-mt-24 py-24 md:py-32 bg-[var(--section-alt)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">{t("label")}</p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white mb-8">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-[var(--heading)] mb-8">
             {t("title")}
           </h2>
           <div className="divider-gold w-24 mx-auto mb-16" />
@@ -73,7 +73,7 @@ export default async function Contact({ phone, email }: Props) {
 
           <a
             href={`mailto:${email}`}
-            className="inline-block mt-12 px-10 py-4 bg-[var(--accent-red)] text-white font-medium tracking-[0.2em] uppercase text-sm hover:bg-[#a52d3d] transition-colors duration-300"
+            className="inline-block mt-12 px-10 py-4 bg-[var(--accent-red)] text-[var(--accent-contrast)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--accent-red-hover)] transition-colors duration-300"
           >
             {t("cta")}
           </a>

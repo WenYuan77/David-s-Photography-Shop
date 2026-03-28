@@ -6,6 +6,13 @@
     "contact": "Contacto"
   },
   "brand": "Final Stage",
+  "theme": {
+    "toggle": "Cambiar tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "switchToLight": "Cambiar al modo claro",
+    "switchToDark": "Cambiar al modo oscuro"
+  },
   "hero": {
     "badge": "Fotografía profesional",
     "tagline": "Donde los momentos se convierten en obras maestras",

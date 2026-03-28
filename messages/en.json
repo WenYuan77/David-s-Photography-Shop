@@ -6,6 +6,13 @@
     "contact": "Contact"
   },
   "brand": "Final Stage",
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
   "hero": {
     "badge": "Professional Photography",
     "tagline": "Where moments become masterpieces",

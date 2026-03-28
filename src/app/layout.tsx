@@ -1,6 +1,7 @@
 import { getLocale } from "next-intl/server";
 import { Playfair_Display, Cormorant_Garamond, Noto_Sans_SC, Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
+import { themeInitScript } from "@/lib/theme-script";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -39,7 +40,10 @@ export default async function RootLayout({
   const fontExtra =
     locale === "zh" ? notoSansSC.variable : locale === "th" ? notoSansThai.variable : "";
   return (
-    <html lang={locale} className="scroll-smooth">
+    <html lang={locale} className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${playfair.variable} ${cormorant.variable} ${fontExtra} antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >

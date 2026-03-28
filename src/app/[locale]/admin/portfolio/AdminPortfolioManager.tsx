@@ -53,8 +53,8 @@ export default function AdminPortfolioManager({
         {t("title")}
       </h1>
 
-      <section className="mb-12 p-6 border border-[var(--border)] bg-[#0d0d0d]">
-        <h2 className="text-lg text-white mb-4">{t("uploadImage")}</h2>
+      <section className="surface-card mb-12 p-6 border">
+        <h2 className="text-lg text-[var(--heading)] mb-4">{t("uploadImage")}</h2>
         {uploadForm}
         <p className="text-[var(--muted)] text-xs mt-2">
           {t("uploadImageHint")}

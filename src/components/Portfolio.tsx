@@ -43,12 +43,12 @@ export default async function Portfolio({ categories, images: portfolioImages }:
   ].join("\n");
 
   return (
-    <section id="portfolio-section" className="scroll-mt-24 py-24 md:py-32 bg-[#0d0d0d]">
+    <section id="portfolio-section" className="scroll-mt-24 py-24 md:py-32 bg-[var(--section-alt)]">
       <style dangerouslySetInnerHTML={{ __html: dynamicCss }} />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
           <p className="text-[var(--gold)] tracking-[0.3em] uppercase text-sm mb-4">{t("label")}</p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-white">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-medium text-[var(--heading)]">
             {t("title")}
           </h2>
           <div className="divider-gold w-24 mx-auto mt-6 mb-12" />
@@ -131,7 +131,7 @@ function PortfolioPanel({
   return (
     <>
       {images.length === 0 && (
-        <p className="text-center text-white text-lg py-16">{emptyMessage}</p>
+        <p className="text-center text-[var(--foreground)] text-lg py-16">{emptyMessage}</p>
       )}
       <input
         type="checkbox"

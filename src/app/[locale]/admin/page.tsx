@@ -21,8 +21,8 @@ export default async function AdminDashboardPage({
       </h1>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
-          <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white mb-4 tracking-wide">
+        <section className="surface-card p-6 border">
+          <h2 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--heading)] mb-4 tracking-wide">
             {t("siteSettings")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">
@@ -39,8 +39,8 @@ export default async function AdminDashboardPage({
           </a>
         </section>
 
-        <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
-          <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white mb-4 tracking-wide">
+        <section className="surface-card p-6 border">
+          <h2 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--heading)] mb-4 tracking-wide">
             {t("categories")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">
@@ -54,8 +54,8 @@ export default async function AdminDashboardPage({
           </a>
         </section>
 
-        <section className="p-6 border border-[var(--border)] bg-[#0d0d0d]">
-          <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white mb-4 tracking-wide">
+        <section className="surface-card p-6 border">
+          <h2 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--heading)] mb-4 tracking-wide">
             {t("portfolio")}
           </h2>
           <p className="text-[var(--muted)] text-sm mb-4">

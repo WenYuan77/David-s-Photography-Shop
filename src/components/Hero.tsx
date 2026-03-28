@@ -16,7 +16,13 @@ export default function Hero({ heroImageUrl }: Props) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Dark overlay for contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-10" />
+      <div
+        className="absolute inset-0 z-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(to bottom, var(--hero-overlay-from), var(--hero-overlay-via), var(--hero-overlay-to))",
+        }}
+      />
 
       {/* Background image */}
       <div className="absolute inset-0">
@@ -32,19 +38,34 @@ export default function Hero({ heroImageUrl }: Props) {
       </div>
 
       <div className="relative z-20 mx-auto max-w-7xl px-6 text-center">
-        <p className="font-[family-name:var(--font-playfair)] text-[var(--gold)] tracking-[0.4em] uppercase text-sm mb-4 animate-fade-in">
+        <p
+          className="font-[family-name:var(--font-playfair)] text-[var(--hero-badge)] tracking-[0.4em] uppercase text-sm mb-4 animate-fade-in"
+          style={{ textShadow: "var(--hero-text-shadow)" }}
+        >
           {t("hero.badge")}
         </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight text-white mb-6 animate-fade-in-up">
+        <h1
+          className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight text-[var(--hero-heading)] mb-6 animate-fade-in-up"
+          style={{ textShadow: "var(--hero-text-shadow)" }}
+        >
           {t("brand")}
         </h1>
         <div className="divider-gold w-32 mx-auto mb-8" />
-        <p className="font-[family-name:var(--font-cormorant)] text-xl sm:text-2xl text-[var(--muted)] max-w-2xl mx-auto mb-12 font-light animate-fade-in-up animation-delay-200">
+        <p
+          className="font-[family-name:var(--font-cormorant)] text-xl sm:text-2xl text-[var(--hero-copy)] max-w-2xl mx-auto mb-12 font-light animate-fade-in-up animation-delay-200"
+          style={{ textShadow: "var(--hero-text-shadow)" }}
+        >
           {t("hero.tagline")}
         </p>
         <a
           href="#contact"
-          className="inline-block px-10 py-4 border border-[var(--gold)] text-[var(--gold)] font-medium tracking-[0.2em] uppercase text-sm hover:bg-[var(--gold)] hover:text-[var(--background)] transition-all duration-500 animate-fade-in-up animation-delay-300"
+          className="inline-block px-10 py-4 border text-[var(--hero-button-text)] font-medium tracking-[0.2em] uppercase text-sm transition-all duration-500 animate-fade-in-up animation-delay-300 hover:bg-[var(--gold)] hover:text-[var(--background)]"
+          style={{
+            borderColor: "var(--hero-button-border)",
+            backgroundColor: "var(--hero-button-bg)",
+            textShadow: "var(--hero-text-shadow)",
+            boxShadow: "var(--hero-text-shadow)",
+          }}
         >
           {t("hero.cta")}
         </a>

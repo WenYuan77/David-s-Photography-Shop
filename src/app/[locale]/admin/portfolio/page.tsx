@@ -51,6 +51,7 @@ export default async function AdminPortfolioPage({
         }))}
         uploadForm={
           <UploadForm
+            key="admin-portfolio-upload-form"
             locale={locale}
             categories={categoriesWithoutAll}
             activeFilter={activeFilter}

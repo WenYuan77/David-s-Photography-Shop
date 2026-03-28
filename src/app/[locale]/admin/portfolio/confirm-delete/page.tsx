@@ -42,7 +42,7 @@ export default async function ConfirmDeletePage({
           <input type="hidden" name="locale" value={locale} />
           <button
             type="submit"
-            className="px-6 py-2 border border-[var(--accent-red)] text-[var(--accent-red)] text-sm font-medium tracking-wider uppercase cursor-pointer hover:bg-[var(--accent-red)] hover:text-white transition-colors"
+            className="px-6 py-2 border border-[var(--accent-red)] text-[var(--accent-red)] text-sm font-medium tracking-wider uppercase cursor-pointer hover:bg-[var(--accent-red)] hover:text-[var(--accent-contrast)] transition-colors"
           >
             {t("confirm")}
           </button>
